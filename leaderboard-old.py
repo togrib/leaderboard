@@ -75,7 +75,7 @@ SECTION_DISPLAY_NAMES = {
 }
 
 # The title shown at the top of the leaderboard page.
-PAGE_TITLE = "Gribble AP Precalc - CYUP Completion Leaderboard"
+PAGE_TITLE = "Gribble AP Precalc CYUP Leaderboard"
 
 # --- Git / GitHub Pages auto-publish settings ---
 
@@ -236,73 +236,56 @@ def generate_html(stats, page_title):
 <meta http-equiv="refresh" content="300">
 <title>{page_title}</title>
 <style>
-    /* --- COLORS: change these hex codes to change the whole page's theme --- */
-    :root {{
-        --bg-color: #0f172a;        /* page background */
-        --text-color: #f1f5f9;      /* main text color */
-        --row-bg: #1e293b;          /* background of each section's row */
-        --rank-color: #94a3b8;      /* the "#1", "#2" etc. text */
-        --bar-track-color: #334155; /* the empty (unfilled) part of the bar */
-        --bar-fill-start: #22d3ee;  /* bar color, left end of gradient */
-        --bar-fill-end: #3b82f6;    /* bar color, right end of gradient */
-    }}
-
-    /* Using vw ("viewport width") and vh ("viewport height") instead of
-       fixed px/rem values means every size below is a PERCENTAGE of the
-       actual screen the page is shown on -- so the whole layout grows or
-       shrinks automatically to fill whatever monitor the kiosk uses,
-       instead of looking tiny (or overflowing) on a different screen size
-       than what this was designed on. */
     body {{
-        background: var(--bg-color);
-        color: var(--text-color);
+        background: #0f172a;
+        color: #f1f5f9;
         font-family: "Segoe UI", Arial, sans-serif;
         margin: 0;
-        padding: 3vh 3vw;
+        padding: 40px;
     }}
     h1 {{
         text-align: center;
-        font-size: 4vw;
-        margin-bottom: 3vh;
+        font-size: 2.5rem;
+        margin-bottom: 40px;
     }}
     ul {{
         list-style: none;
         margin: 0 auto;
         padding: 0;
-        max-width: 90vw;
+        max-width: 900px;
     }}
     .row {{
         display: flex;
         align-items: center;
-        gap: 2vw;
-        padding: 2vh 2vw;
-        margin-bottom: 1.5vh;
-        background: var(--row-bg);
+        gap: 20px;
+        padding: 18px 24px;
+        margin-bottom: 14px;
+        background: #1e293b;
         border-radius: 12px;
-        font-size: 2.2vw;
+        font-size: 1.4rem;
     }}
     .rank {{
-        width: 4vw;
+        width: 50px;
         font-weight: bold;
-        color: var(--rank-color);
+        color: #94a3b8;
     }}
     .name {{
-        width: 16vw;
+        width: 220px;
         font-weight: 600;
     }}
     .bar-track {{
         flex-grow: 1;
-        background: var(--bar-track-color);
+        background: #334155;
         border-radius: 8px;
         overflow: hidden;
-        height: 4vh;
+        height: 24px;
     }}
     .bar-fill {{
         height: 100%;
-        background: linear-gradient(90deg, var(--bar-fill-start), var(--bar-fill-end));
+        background: linear-gradient(90deg, #22d3ee, #3b82f6);
     }}
     .percentage {{
-        width: 6vw;
+        width: 80px;
         text-align: right;
         font-weight: bold;
     }}
