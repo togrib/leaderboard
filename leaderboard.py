@@ -75,14 +75,14 @@ SECTION_DISPLAY_NAMES = {
 }
 
 # The title shown at the top of the leaderboard page.
-PAGE_TITLE = "AP Precalculus 2 - Homework Completion Leaderboard"
+PAGE_TITLE = "Gribble AP Precalc CYUP Leaderboard"
 
 # --- Git / GitHub Pages auto-publish settings ---
 
 # Set this to True once you've tested the script and are ready to have it
 # automatically commit + push. Leave False while you're testing so you don't
 # accidentally push broken pages.
-GIT_AUTO_PUSH = False
+GIT_AUTO_PUSH = True
 
 # The local folder that is a git repository connected to your GitHub Pages
 # site (i.e. the folder you'd normally run `git add` / `git commit` in).
