@@ -31,22 +31,10 @@ from pathlib import Path
 # automatically -- NOT typed in by hand. That's what makes the paths below
 # work correctly no matter which computer you run this from, as long as
 # this script stays inside your cloned GitHub repo folder.
-#
-# SETUP (one time, per computer):
-#   1. Create an empty repo on GitHub.com (e.g. "classroom-leaderboard").
-#   2. On your computer, run: git clone <the repo's URL>
-#      (This is also where you'll sign into GitHub -- git remembers that
-#      login on this computer from then on, so the script never needs to
-#      handle passwords or tokens itself.)
-#   3. Move/save this leaderboard.py file INSIDE that cloned repo folder.
-#   4. Each week, save your Canvas CSV export into that same folder too
-#      (see CSV_PATH below).
 BASE_DIR = Path(__file__).resolve().parent
 
 # Path to the Canvas CSV you exported. Update this each week, OR just always
 # save/rename your export to this exact filename before running the script.
-# This is relative to BASE_DIR (the repo folder), so just drop the file in
-# next to this script.
 CSV_PATH = BASE_DIR / "grades.csv"
 
 # Where to write the generated leaderboard HTML file. GitHub Pages will be
@@ -59,39 +47,40 @@ HTML_OUTPUT_PATH = BASE_DIR / "docs" / "index.html"
 # check that counts toward the completion percentage.
 COMPLETION_KEYWORD = "CYUP"
 
+# The value Canvas uses in a CYUP column to mean "completed." Canvas has
+# used different formats in different export years -- "1.00" one year,
+# just "1" another. If completion percentages ever come back as 0% even
+# though you know students completed work, this is the first thing to
+# check: open the CSV and look at what a completed cell actually contains.
+COMPLETED_VALUE = "1"
+
 # The name of the CSV column that holds each student's class period.
 SECTION_COLUMN = "Section"
+
+# Canvas includes a "Test Student" dummy account in gradebook exports,
+# used internally for previewing assignments -- it's not a real student
+# and often has a garbled/combined Section value. We filter out any row
+# whose Student name matches this.
+IGNORED_STUDENT_NAMES = {"Student, Test"}
 
 # Optional: rename ugly Canvas section names to friendly display names.
 # Key = exact text as it appears in the CSV "Section" column.
 # Value = what you want displayed on the leaderboard.
 # Any section NOT listed here will just be displayed using its raw CSV name.
 SECTION_DISPLAY_NAMES = {
-    "AP Precalculus 2-P02-Gribble": "Period 2",
-    "AP Precalculus 2-P03-Gribble": "Period 3",
-    "AP Precalculus 2-P04-Gribble": "Period 4",
-    "AP Precalculus 2-P05-Gribble": "Period 5",
-    "AP Precalculus 2-P06-Gribble": "Period 6",
+    "AP Precalculus 1-P03-Gribble": "Period 3",
+    "AP Precalculus 1-P04-Gribble": "Period 4",
+    "AP Precalculus 1-P05-Gribble": "Period 5",
+    "AP Precalculus 1-P06-Gribble": "Period 6",
 }
 
 # The title shown at the top of the leaderboard page.
-PAGE_TITLE = "Gribble AP Precalc - CYUP Completion Leaderboard"
+PAGE_TITLE = "AP Precalc - CYUP Completion Leaderboard"
 
 # --- Git / GitHub Pages auto-publish settings ---
-
-# Set this to True once you've tested the script and are ready to have it
-# automatically commit + push. Leave False while you're testing so you don't
-# accidentally push broken pages.
 GIT_AUTO_PUSH = True
-
-# The local folder that is a git repository connected to your GitHub Pages
-# site (i.e. the folder you'd normally run `git add` / `git commit` in).
-# This is just BASE_DIR again -- the folder this script lives in -- so it
-# automatically points at the right place on any computer.
 GIT_REPO_PATH = BASE_DIR
-
-# The commit message used each time the script pushes an update.
-GIT_COMMIT_MESSAGE = "Update homework completion leaderboard"
+GIT_COMMIT_MESSAGE = "Update CYUP completion leaderboard"
 
 
 # =============================================================================
@@ -105,7 +94,8 @@ def load_gradebook_rows(csv_path):
     (one dict per student, keys = column headers).
 
     Canvas always inserts a "Points Possible" summary row right after the
-    header row -- that's not a real student, so we skip it.
+    header row, and also includes a "Test Student" dummy account -- neither
+    is a real student, so both get filtered out here.
     """
     csv_path = Path(csv_path)
     if not csv_path.exists():
@@ -118,11 +108,10 @@ def load_gradebook_rows(csv_path):
         reader = csv.DictReader(f)
         rows = list(reader)
 
-    # Drop the "Points Possible" row. Canvas puts the text "Points Possible"
-    # in the first column of that row instead of a student name.
     student_rows = [
         row for row in rows
         if not row.get("Student", "").strip().startswith("Points Possible")
+        and row.get("Student", "").strip() not in IGNORED_STUDENT_NAMES
     ]
     return student_rows
 
@@ -145,25 +134,13 @@ def find_completion_columns(fieldnames, keyword):
 def calculate_completion_by_section(student_rows, section_column, completion_columns):
     """
     For each section (class period), count how many of the completion
-    columns are marked done ("1.00") versus how many were possible.
-
-    Returns a dict like:
-        {
-            "AP Precalculus 2-P02-Gribble": {
-                "completed": 159,
-                "possible": 1312,
-                "percentage": 12.12,
-            },
-            ...
-        }
+    columns are marked done versus how many were possible.
     """
-    # completed/possible counters, one pair per section
     stats = {}
 
     for row in student_rows:
         section = row.get(section_column, "").strip()
         if not section:
-            # Skip any row that has no section (shouldn't normally happen).
             continue
 
         if section not in stats:
@@ -172,10 +149,9 @@ def calculate_completion_by_section(student_rows, section_column, completion_col
         for column in completion_columns:
             value = row.get(column, "").strip()
             stats[section]["possible"] += 1
-            if value == "1.00":
+            if value == COMPLETED_VALUE:
                 stats[section]["completed"] += 1
 
-    # Now calculate a percentage for each section.
     for section, counts in stats.items():
         if counts["possible"] > 0:
             counts["percentage"] = round(
@@ -205,12 +181,10 @@ def generate_html(stats, page_title):
     Build the leaderboard HTML page as a string, ranking sections from
     highest to lowest completion percentage.
     """
-    # Sort sections by percentage, highest first.
     ranked_sections = sorted(
         stats.items(), key=lambda item: item[1]["percentage"], reverse=True
     )
 
-    # Build one <li> row per section.
     row_html_pieces = []
     for rank, (section_name, counts) in enumerate(ranked_sections, start=1):
         row_html_pieces.append(
@@ -227,8 +201,6 @@ def generate_html(stats, page_title):
         )
     rows_html = "\n".join(row_html_pieces)
 
-    # The page auto-refreshes every 5 minutes (300 seconds) so the kiosk
-    # Pi always shows the latest pushed version without anyone touching it.
     html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -236,23 +208,15 @@ def generate_html(stats, page_title):
 <meta http-equiv="refresh" content="300">
 <title>{page_title}</title>
 <style>
-    /* --- COLORS: change these hex codes to change the whole page's theme --- */
     :root {{
-        --bg-color: #0f172a;        /* page background */
-        --text-color: #f1f5f9;      /* main text color */
-        --row-bg: #1e293b;          /* background of each section's row */
-        --rank-color: #94a3b8;      /* the "#1", "#2" etc. text */
-        --bar-track-color: #334155; /* the empty (unfilled) part of the bar */
-        --bar-fill-start: #22d3ee;  /* bar color, left end of gradient */
-        --bar-fill-end: #3b82f6;    /* bar color, right end of gradient */
+        --bg-color: #0f172a;
+        --text-color: #f1f5f9;
+        --row-bg: #1e293b;
+        --rank-color: #94a3b8;
+        --bar-track-color: #334155;
+        --bar-fill-start: #22d3ee;
+        --bar-fill-end: #3b82f6;
     }}
-
-    /* Using vw ("viewport width") and vh ("viewport height") instead of
-       fixed px/rem values means every size below is a PERCENTAGE of the
-       actual screen the page is shown on -- so the whole layout grows or
-       shrinks automatically to fill whatever monitor the kiosk uses,
-       instead of looking tiny (or overflowing) on a different screen size
-       than what this was designed on. */
     body {{
         background: var(--bg-color);
         color: var(--text-color);
@@ -331,9 +295,6 @@ def git_commit_and_push(repo_path, commit_message):
     """
     Run the git commands needed to commit the updated HTML and push it to
     GitHub, so GitHub Pages picks up the new version automatically.
-
-    Each git command is run one at a time so that if something goes wrong,
-    you get a clear error message telling you which step failed.
     """
     commands = [
         ["git", "add", "-A"],
@@ -350,8 +311,6 @@ def git_commit_and_push(repo_path, commit_message):
             print(result.stdout.strip())
 
         if result.returncode != 0:
-            # "nothing to commit" is not really an error -- it just means
-            # the leaderboard didn't change since last time. Keep going.
             if "nothing to commit" in result.stdout.lower():
                 print("(No changes to commit -- leaderboard was already up to date.)")
                 continue
