@@ -52,7 +52,7 @@ COMPLETION_KEYWORD = "CYUP"
 # just "1" another. If completion percentages ever come back as 0% even
 # though you know students completed work, this is the first thing to
 # check: open the CSV and look at what a completed cell actually contains.
-COMPLETED_VALUE = "1"
+COMPLETED_VALUE = "1.00"
 
 # The name of the CSV column that holds each student's class period.
 SECTION_COLUMN = "Section"
