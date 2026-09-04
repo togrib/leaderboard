@@ -19,6 +19,7 @@ underneath unless you want to change *how* something works.
 import csv
 import subprocess
 import sys
+from datetime import datetime
 from pathlib import Path
 
 
@@ -80,7 +81,7 @@ PAGE_TITLE = "AP Precalc - CYUP Completion Leaderboard"
 # --- Git / GitHub Pages auto-publish settings ---
 GIT_AUTO_PUSH = True
 GIT_REPO_PATH = BASE_DIR
-GIT_COMMIT_MESSAGE = "Update CYUP completion leaderboard"
+GIT_COMMIT_MESSAGE = "Update homework completion leaderboard"
 
 
 # =============================================================================
@@ -201,6 +202,19 @@ def generate_html(stats, page_title):
         )
     rows_html = "\n".join(row_html_pieces)
 
+    # Build a "Last updated" string using the computer's current date/time,
+    # at the moment this function runs (i.e. when you run the script).
+    # We build the date/time manually with int() instead of using
+    # strftime's "%-m" trick, because that trick only works on Mac/Linux
+    # and would crash on Windows -- this way works on both.
+    now = datetime.now()
+    hour_12 = now.hour % 12 or 12  # convert 24-hour clock to 12-hour clock
+    am_pm = "AM" if now.hour < 12 else "PM"
+    last_updated_text = (
+        f"Last updated {now.month}/{now.day}/{now.year} "
+        f"at {hour_12}:{now.minute:02d} {am_pm}"
+    )
+
     html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -270,6 +284,12 @@ def generate_html(stats, page_title):
         text-align: right;
         font-weight: bold;
     }}
+    .last-updated {{
+        text-align: center;
+        margin-top: 3vh;
+        font-size: 1.2vw;
+        color: var(--rank-color);
+    }}
 </style>
 </head>
 <body>
@@ -277,6 +297,7 @@ def generate_html(stats, page_title):
     <ul>
         {rows_html}
     </ul>
+    <p class="last-updated">{last_updated_text}</p>
 </body>
 </html>
 """
