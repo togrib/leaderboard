@@ -72,7 +72,7 @@ SECTION_DISPLAY_NAMES = {
 PAGE_TITLE = "AP Precalculus 1 - Homework Completion Leaderboard"
 
 # --- Git / GitHub Pages auto-publish settings ---
-GIT_AUTO_PUSH = True
+GIT_AUTO_PUSH = False
 GIT_REPO_PATH = BASE_DIR
 GIT_COMMIT_MESSAGE = "Update homework completion leaderboard"
 
@@ -207,14 +207,12 @@ def generate_html(stats, page_title):
         row_html_pieces.append(
             f"""
             <li class="row">
-                <div class="top-line">
-                    <span class="rank">#{rank}</span>
-                    <span class="name">{section_name}</span>
-                    <span class="percentage">{counts['percentage']}%</span>
-                </div>
+                <span class="rank">#{rank}</span>
+                <span class="name">{section_name}</span>
                 <div class="bar-track">
                     <div class="bar-fill" style="width: {counts['percentage']}%;"></div>
                 </div>
+                <span class="percentage">{counts['percentage']}%</span>
             </li>
             """
         )
@@ -251,62 +249,58 @@ def generate_html(stats, page_title):
         color: var(--text-color);
         font-family: "Segoe UI", Arial, sans-serif;
         margin: 0;
-        padding: 2vh 3vw;
+        padding: 3vh 3vw;
     }}
     h1 {{
         text-align: center;
-        font-size: 4.5vw;
-        margin-bottom: 2vh;
+        font-size: 4vw;
+        margin-bottom: 3vh;
     }}
     ul {{
         list-style: none;
         margin: 0 auto;
         padding: 0;
-        max-width: 94vw;
+        max-width: 90vw;
     }}
     .row {{
         display: flex;
-        flex-direction: column;
-        gap: 1.2vh;
-        padding: 2.5vh 2.5vw;
-        margin-bottom: 2vh;
+        align-items: center;
+        gap: 2vw;
+        padding: 2vh 2vw;
+        margin-bottom: 1.5vh;
         background: var(--row-bg);
-        border-radius: 16px;
-    }}
-    .top-line {{
-        display: flex;
-        align-items: baseline;
-        gap: 1.5vw;
+        border-radius: 12px;
+        font-size: 2.2vw;
     }}
     .rank {{
-        font-size: 4vw;
+        width: 4vw;
         font-weight: bold;
         color: var(--rank-color);
     }}
     .name {{
-        flex-grow: 1;
-        font-size: 6vw;
-        font-weight: 700;
-        line-height: 1.05;
-    }}
-    .percentage {{
-        font-size: 5vw;
-        font-weight: bold;
+        width: 16vw;
+        font-weight: 600;
     }}
     .bar-track {{
+        flex-grow: 1;
         background: var(--bar-track-color);
-        border-radius: 10px;
+        border-radius: 8px;
         overflow: hidden;
-        height: 5vh;
+        height: 4vh;
     }}
     .bar-fill {{
         height: 100%;
         background: linear-gradient(90deg, var(--bar-fill-start), var(--bar-fill-end));
     }}
+    .percentage {{
+        width: 6vw;
+        text-align: right;
+        font-weight: bold;
+    }}
     .last-updated {{
         text-align: center;
-        margin-top: 2vh;
-        font-size: 1.4vw;
+        margin-top: 3vh;
+        font-size: 1.2vw;
         color: var(--rank-color);
     }}
 </style>

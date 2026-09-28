@@ -48,6 +48,13 @@ HTML_OUTPUT_PATH = BASE_DIR / "docs" / "index.html"
 # check that counts toward the completion percentage.
 COMPLETION_KEYWORD = "CYUP"
 
+# The value Canvas uses in a CYUP column to mean "completed." Canvas has
+# used different formats in different export years -- "1.00" one year,
+# just "1" another. If completion percentages ever come back as 0% even
+# though you know students completed work, this is the first thing to
+# check: open the CSV and look at what a completed cell actually contains.
+COMPLETED_VALUE = "1"
+
 # The name of the CSV column that holds each student's class period.
 SECTION_COLUMN = "Section"
 
@@ -69,7 +76,7 @@ SECTION_DISPLAY_NAMES = {
 }
 
 # The title shown at the top of the leaderboard page.
-PAGE_TITLE = "AP Precalculus 1 - Homework Completion Leaderboard"
+PAGE_TITLE = "AP Precalc - CYUP Completion Leaderboard"
 
 # --- Git / GitHub Pages auto-publish settings ---
 GIT_AUTO_PUSH = True
@@ -125,29 +132,6 @@ def find_completion_columns(fieldnames, keyword):
     return matching_columns
 
 
-def is_completed(value):
-    """
-    Decide whether a single CYUP cell counts as "completed."
-
-    Canvas has exported this as "1" in some CSVs and "1.00" in others --
-    it seems to vary export to export, not something we can rely on
-    staying consistent. Rather than checking for one exact piece of text,
-    we convert the cell to a number and check if it equals 1. This way,
-    "1", "1.0", and "1.00" are all correctly treated as the same thing,
-    regardless of which format Canvas happens to use this time.
-
-    An empty cell (incomplete) or any non-numeric text safely counts as
-    "not completed" rather than crashing the script.
-    """
-    value = value.strip()
-    if not value:
-        return False
-    try:
-        return float(value) == 1.0
-    except ValueError:
-        return False
-
-
 def calculate_completion_by_section(student_rows, section_column, completion_columns):
     """
     For each section (class period), count how many of the completion
@@ -164,9 +148,9 @@ def calculate_completion_by_section(student_rows, section_column, completion_col
             stats[section] = {"completed": 0, "possible": 0}
 
         for column in completion_columns:
-            value = row.get(column, "")
+            value = row.get(column, "").strip()
             stats[section]["possible"] += 1
-            if is_completed(value):
+            if value == COMPLETED_VALUE:
                 stats[section]["completed"] += 1
 
     for section, counts in stats.items():
@@ -207,14 +191,12 @@ def generate_html(stats, page_title):
         row_html_pieces.append(
             f"""
             <li class="row">
-                <div class="top-line">
-                    <span class="rank">#{rank}</span>
-                    <span class="name">{section_name}</span>
-                    <span class="percentage">{counts['percentage']}%</span>
-                </div>
+                <span class="rank">#{rank}</span>
+                <span class="name">{section_name}</span>
                 <div class="bar-track">
                     <div class="bar-fill" style="width: {counts['percentage']}%;"></div>
                 </div>
+                <span class="percentage">{counts['percentage']}%</span>
             </li>
             """
         )
@@ -222,6 +204,9 @@ def generate_html(stats, page_title):
 
     # Build a "Last updated" string using the computer's current date/time,
     # at the moment this function runs (i.e. when you run the script).
+    # We build the date/time manually with int() instead of using
+    # strftime's "%-m" trick, because that trick only works on Mac/Linux
+    # and would crash on Windows -- this way works on both.
     now = datetime.now()
     hour_12 = now.hour % 12 or 12  # convert 24-hour clock to 12-hour clock
     am_pm = "AM" if now.hour < 12 else "PM"
@@ -251,62 +236,58 @@ def generate_html(stats, page_title):
         color: var(--text-color);
         font-family: "Segoe UI", Arial, sans-serif;
         margin: 0;
-        padding: 2vh 3vw;
+        padding: 3vh 3vw;
     }}
     h1 {{
         text-align: center;
-        font-size: 4.5vw;
-        margin-bottom: 2vh;
+        font-size: 4vw;
+        margin-bottom: 3vh;
     }}
     ul {{
         list-style: none;
         margin: 0 auto;
         padding: 0;
-        max-width: 94vw;
+        max-width: 90vw;
     }}
     .row {{
         display: flex;
-        flex-direction: column;
-        gap: 1.2vh;
-        padding: 2.5vh 2.5vw;
-        margin-bottom: 2vh;
+        align-items: center;
+        gap: 2vw;
+        padding: 2vh 2vw;
+        margin-bottom: 1.5vh;
         background: var(--row-bg);
-        border-radius: 16px;
-    }}
-    .top-line {{
-        display: flex;
-        align-items: baseline;
-        gap: 1.5vw;
+        border-radius: 12px;
+        font-size: 2.2vw;
     }}
     .rank {{
-        font-size: 4vw;
+        width: 4vw;
         font-weight: bold;
         color: var(--rank-color);
     }}
     .name {{
-        flex-grow: 1;
-        font-size: 6vw;
-        font-weight: 700;
-        line-height: 1.05;
-    }}
-    .percentage {{
-        font-size: 5vw;
-        font-weight: bold;
+        width: 16vw;
+        font-weight: 600;
     }}
     .bar-track {{
+        flex-grow: 1;
         background: var(--bar-track-color);
-        border-radius: 10px;
+        border-radius: 8px;
         overflow: hidden;
-        height: 5vh;
+        height: 4vh;
     }}
     .bar-fill {{
         height: 100%;
         background: linear-gradient(90deg, var(--bar-fill-start), var(--bar-fill-end));
     }}
+    .percentage {{
+        width: 6vw;
+        text-align: right;
+        font-weight: bold;
+    }}
     .last-updated {{
         text-align: center;
-        margin-top: 2vh;
-        font-size: 1.4vw;
+        margin-top: 3vh;
+        font-size: 1.2vw;
         color: var(--rank-color);
     }}
 </style>

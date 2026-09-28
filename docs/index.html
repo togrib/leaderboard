@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="refresh" content="300">
-<title>AP Precalc - CYUP Completion Leaderboard</title>
+<title>AP Precalculus 1 - Homework Completion Leaderboard</title>
 <style>
     :root {
         --bg-color: #0f172a;
@@ -19,106 +19,118 @@
         color: var(--text-color);
         font-family: "Segoe UI", Arial, sans-serif;
         margin: 0;
-        padding: 3vh 3vw;
+        padding: 2vh 3vw;
     }
     h1 {
         text-align: center;
-        font-size: 4vw;
-        margin-bottom: 3vh;
+        font-size: 4.5vw;
+        margin-bottom: 2vh;
     }
     ul {
         list-style: none;
         margin: 0 auto;
         padding: 0;
-        max-width: 90vw;
+        max-width: 94vw;
     }
     .row {
         display: flex;
-        align-items: center;
-        gap: 2vw;
-        padding: 2vh 2vw;
-        margin-bottom: 1.5vh;
+        flex-direction: column;
+        gap: 1.2vh;
+        padding: 2.5vh 2.5vw;
+        margin-bottom: 2vh;
         background: var(--row-bg);
-        border-radius: 12px;
-        font-size: 2.2vw;
+        border-radius: 16px;
+    }
+    .top-line {
+        display: flex;
+        align-items: baseline;
+        gap: 1.5vw;
     }
     .rank {
-        width: 4vw;
+        font-size: 4vw;
         font-weight: bold;
         color: var(--rank-color);
     }
     .name {
-        width: 16vw;
-        font-weight: 600;
+        flex-grow: 1;
+        font-size: 6vw;
+        font-weight: 700;
+        line-height: 1.05;
+    }
+    .percentage {
+        font-size: 5vw;
+        font-weight: bold;
     }
     .bar-track {
-        flex-grow: 1;
         background: var(--bar-track-color);
-        border-radius: 8px;
+        border-radius: 10px;
         overflow: hidden;
-        height: 4vh;
+        height: 5vh;
     }
     .bar-fill {
         height: 100%;
         background: linear-gradient(90deg, var(--bar-fill-start), var(--bar-fill-end));
     }
-    .percentage {
-        width: 6vw;
-        text-align: right;
-        font-weight: bold;
-    }
     .last-updated {
         text-align: center;
-        margin-top: 3vh;
-        font-size: 1.2vw;
+        margin-top: 2vh;
+        font-size: 1.4vw;
         color: var(--rank-color);
     }
 </style>
 </head>
 <body>
-    <h1>AP Precalc - CYUP Completion Leaderboard</h1>
+    <h1>AP Precalculus 1 - Homework Completion Leaderboard</h1>
     <ul>
         
             <li class="row">
-                <span class="rank">#1</span>
-                <span class="name">Period 6</span>
-                <div class="bar-track">
-                    <div class="bar-fill" style="width: 0.0%;"></div>
+                <div class="top-line">
+                    <span class="rank">#1</span>
+                    <span class="name">Period 6</span>
+                    <span class="percentage">44.0%</span>
                 </div>
-                <span class="percentage">0.0%</span>
+                <div class="bar-track">
+                    <div class="bar-fill" style="width: 44.0%;"></div>
+                </div>
             </li>
             
 
             <li class="row">
-                <span class="rank">#2</span>
-                <span class="name">Period 3</span>
-                <div class="bar-track">
-                    <div class="bar-fill" style="width: 0.0%;"></div>
+                <div class="top-line">
+                    <span class="rank">#2</span>
+                    <span class="name">Period 4</span>
+                    <span class="percentage">41.67%</span>
                 </div>
-                <span class="percentage">0.0%</span>
+                <div class="bar-track">
+                    <div class="bar-fill" style="width: 41.67%;"></div>
+                </div>
             </li>
             
 
             <li class="row">
-                <span class="rank">#3</span>
-                <span class="name">Period 5</span>
-                <div class="bar-track">
-                    <div class="bar-fill" style="width: 0.0%;"></div>
+                <div class="top-line">
+                    <span class="rank">#3</span>
+                    <span class="name">Period 5</span>
+                    <span class="percentage">39.7%</span>
                 </div>
-                <span class="percentage">0.0%</span>
+                <div class="bar-track">
+                    <div class="bar-fill" style="width: 39.7%;"></div>
+                </div>
             </li>
             
 
             <li class="row">
-                <span class="rank">#4</span>
-                <span class="name">Period 4</span>
-                <div class="bar-track">
-                    <div class="bar-fill" style="width: 0.0%;"></div>
+                <div class="top-line">
+                    <span class="rank">#4</span>
+                    <span class="name">Period 3</span>
+                    <span class="percentage">36.21%</span>
                 </div>
-                <span class="percentage">0.0%</span>
+                <div class="bar-track">
+                    <div class="bar-fill" style="width: 36.21%;"></div>
+                </div>
             </li>
             
     </ul>
-    <p class="last-updated">Last updated 9/28/2026 at 9:55 AM</p>
+    <p class="last-updated">Last updated 9/28/2026 at 10:07 AM</p>
 </body>
 </html>
