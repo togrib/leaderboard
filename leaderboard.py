@@ -69,7 +69,7 @@ SECTION_DISPLAY_NAMES = {
 }
 
 # The title shown at the top of the leaderboard page.
-PAGE_TITLE = "AP Precalculus 1 - Homework Completion Leaderboard"
+PAGE_TITLE = "AP Precalc - CYUP Leaderboard"
 
 # --- Git / GitHub Pages auto-publish settings ---
 GIT_AUTO_PUSH = True
