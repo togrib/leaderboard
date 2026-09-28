@@ -255,8 +255,8 @@ def generate_html(stats, page_title):
     }}
     h1 {{
         text-align: center;
-        font-size: 4.5vw;
-        margin-bottom: 2vh;
+        font-size: 4vw;
+        margin-bottom: 1.5vh;
     }}
     ul {{
         list-style: none;
@@ -267,9 +267,9 @@ def generate_html(stats, page_title):
     .row {{
         display: flex;
         flex-direction: column;
-        gap: 1.2vh;
-        padding: 2.5vh 2.5vw;
-        margin-bottom: 2vh;
+        gap: 1vh;
+        padding: 1.8vh 2.5vw;
+        margin-bottom: 1.5vh;
         background: var(--row-bg);
         border-radius: 16px;
     }}
@@ -279,25 +279,25 @@ def generate_html(stats, page_title):
         gap: 1.5vw;
     }}
     .rank {{
-        font-size: 4vw;
+        font-size: 3vw;
         font-weight: bold;
         color: var(--rank-color);
     }}
     .name {{
         flex-grow: 1;
-        font-size: 6vw;
+        font-size: 4.2vw;
         font-weight: 700;
         line-height: 1.05;
     }}
     .percentage {{
-        font-size: 5vw;
+        font-size: 3.6vw;
         font-weight: bold;
     }}
     .bar-track {{
         background: var(--bar-track-color);
         border-radius: 10px;
         overflow: hidden;
-        height: 5vh;
+        height: 3.5vh;
     }}
     .bar-fill {{
         height: 100%;
@@ -305,8 +305,8 @@ def generate_html(stats, page_title):
     }}
     .last-updated {{
         text-align: center;
-        margin-top: 2vh;
-        font-size: 1.4vw;
+        margin-top: 1vh;
+        font-size: 1.2vw;
         color: var(--rank-color);
     }}
 </style>
