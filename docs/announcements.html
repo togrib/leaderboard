@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Announcements</title>
+
+  <!-- Shared colors and fonts -->
+  <link rel="stylesheet" href="theme.css">
+
+  <style>
+    /* The list of announcements */
+    ul {
+      list-style: none;     /* remove default bullets; we draw our own below */
+      margin: 0;
+      padding: 0;
+    }
+
+    li {
+      position: relative;
+      padding-left: 1.6em;
+      margin-bottom: 0.7em;
+    }
+
+    /* Our custom bullet: a small gold square */
+    li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.45em;
+      width: 0.55em;
+      height: 0.55em;
+      background: var(--gold);
+      border-radius: 2px;
+    }
+
+    /* Important announcements (start with "!" in the JSON file) */
+    li.urgent {
+      color: var(--coral);
+      font-weight: 600;
+    }
+    li.urgent::before {
+      background: var(--coral);
+    }
+
+    /* Message shown if the list is empty or fails to load */
+    .empty {
+      color: var(--muted);
+    }
+  </style>
+</head>
+
+<body class="embedded">
+
+  <h1>Announcements</h1>
+  <ul id="list"></ul>
+
+  <script>
+    // Load announcements.json, then build the list.
+    // "?t=" + Date.now() makes sure we get the newest version, not a saved one.
+    fetch("announcements.json?t=" + Date.now())
+      .then(function (response) { return response.json(); })
+      .then(function (data) {
+        const list = document.getElementById("list");
+
+        if (data.announcements.length === 0) {
+          list.innerHTML = '<li class="empty">Nothing new today.</li>';
+          return;
+        }
+
+        for (const text of data.announcements) {
+          const item = document.createElement("li");
+
+          // If the text starts with "!", make it stand out and remove the "!"
+          if (text.startsWith("!")) {
+            item.className = "urgent";
+            item.textContent = text.slice(1).trim();
+          } else {
+            item.textContent = text;
+          }
+
+          list.appendChild(item);
+        }
+      })
+      .catch(function (error) {
+        // If something went wrong (typo in the JSON file, for example)
+        document.getElementById("list").innerHTML =
+          '<li class="empty">Could not load announcements. Check announcements.json for typos.</li>';
+        console.error(error);
+      });
+  </script>
+
+</body>
+</html>

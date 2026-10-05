@@ -34,14 +34,15 @@ from pathlib import Path
 # this script stays inside your cloned GitHub repo folder.
 BASE_DIR = Path(__file__).resolve().parent
 
-# Path to the Canvas CSV you exported. Update this each week, OR just always
-# save/rename your export to this exact filename before running the script.
-CSV_PATH = BASE_DIR / "grades.csv"
+# Path to the TRADITIONAL Canvas gradebook export (the same file that
+# chart_data.py uses). Save/rename each new export to this exact filename
+# before running the script.
+CSV_PATH = BASE_DIR / "traditional.csv"
 
-# Where to write the generated leaderboard HTML file. GitHub Pages will be
-# configured to serve whatever is in this "docs" folder, so this ends up
-# being your live kiosk page.
-HTML_OUTPUT_PATH = BASE_DIR / "docs" / "index.html"
+# Where to write the generated leaderboard HTML file. GitHub Pages serves
+# whatever is in this "docs" folder. The dashboard (index.html) embeds this
+# page, so it must NOT be called index.html or it would overwrite the dashboard.
+HTML_OUTPUT_PATH = BASE_DIR / "docs" / "leaderboard.html"
 
 # The keyword used to find "completion check" columns in the CSV header.
 # Any column whose header contains this text is treated as a homework
@@ -197,26 +198,33 @@ def generate_html(stats, page_title):
     """
     Build the leaderboard HTML page as a string, ranking sections from
     highest to lowest completion percentage.
+
+    The page's LOOK lives in two separate files, linked in the <head>:
+        theme.css        - shared colors/fonts for the whole dashboard
+        leaderboard.css  - styling specific to this page
+    Both must sit in the same folder as the generated leaderboard.html.
     """
     ranked_sections = sorted(
         stats.items(), key=lambda item: item[1]["percentage"], reverse=True
     )
 
+    # The highest percentage on the board (used to highlight first place).
+    # If two periods tie for first, both get highlighted.
+    top_percentage = ranked_sections[0][1]["percentage"] if ranked_sections else None
+
     row_html_pieces = []
     for rank, (section_name, counts) in enumerate(ranked_sections, start=1):
+        leader_class = " leader" if counts["percentage"] == top_percentage else ""
         row_html_pieces.append(
             f"""
-            <li class="row">
-                <div class="top-line">
-                    <span class="rank">#{rank}</span>
-                    <span class="name">{section_name}</span>
-                    <span class="percentage">{counts['percentage']}%</span>
-                </div>
-                <div class="bar-track">
-                    <div class="bar-fill" style="width: {counts['percentage']}%;"></div>
-                </div>
-            </li>
-            """
+        <li class="row{leader_class}">
+            <span class="rank">#{rank}</span>
+            <span class="name">{section_name}</span>
+            <div class="bar-track">
+                <div class="bar-fill" style="width: {counts['percentage']}%;"></div>
+            </div>
+            <span class="percentage">{counts['percentage']}%</span>
+        </li>"""
         )
     rows_html = "\n".join(row_html_pieces)
 
@@ -234,89 +242,17 @@ def generate_html(stats, page_title):
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="refresh" content="300">
 <title>{page_title}</title>
-<style>
-    :root {{
-        --bg-color: #0f172a;
-        --text-color: #f1f5f9;
-        --row-bg: #1e293b;
-        --rank-color: #94a3b8;
-        --bar-track-color: #334155;
-        --bar-fill-start: #22d3ee;
-        --bar-fill-end: #3b82f6;
-    }}
-    body {{
-        background: var(--bg-color);
-        color: var(--text-color);
-        font-family: "Segoe UI", Arial, sans-serif;
-        margin: 0;
-        padding: 2vh 3vw;
-    }}
-    h1 {{
-        text-align: center;
-        font-size: 4vw;
-        margin-bottom: 1.5vh;
-    }}
-    ul {{
-        list-style: none;
-        margin: 0 auto;
-        padding: 0;
-        max-width: 94vw;
-    }}
-    .row {{
-        display: flex;
-        flex-direction: column;
-        gap: 1vh;
-        padding: 1.8vh 2.5vw;
-        margin-bottom: 1.5vh;
-        background: var(--row-bg);
-        border-radius: 16px;
-    }}
-    .top-line {{
-        display: flex;
-        align-items: baseline;
-        gap: 1.5vw;
-    }}
-    .rank {{
-        font-size: 3vw;
-        font-weight: bold;
-        color: var(--rank-color);
-    }}
-    .name {{
-        flex-grow: 1;
-        font-size: 4.2vw;
-        font-weight: 700;
-        line-height: 1.05;
-    }}
-    .percentage {{
-        font-size: 3.6vw;
-        font-weight: bold;
-    }}
-    .bar-track {{
-        background: var(--bar-track-color);
-        border-radius: 10px;
-        overflow: hidden;
-        height: 3.5vh;
-    }}
-    .bar-fill {{
-        height: 100%;
-        background: linear-gradient(90deg, var(--bar-fill-start), var(--bar-fill-end));
-    }}
-    .last-updated {{
-        text-align: center;
-        margin-top: 1vh;
-        font-size: 1.2vw;
-        color: var(--rank-color);
-    }}
-</style>
+<link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="leaderboard.css">
 </head>
-<body>
-    <h1>{page_title}</h1>
-    <ul>
-        {rows_html}
+<body class="embedded">
+    <div class="header">
+        <h1>{page_title}</h1>
+        <p class="last-updated">{last_updated_text}</p>
+    </div>
+    <ul class="board">{rows_html}
     </ul>
-    <p class="last-updated">{last_updated_text}</p>
 </body>
 </html>
 """

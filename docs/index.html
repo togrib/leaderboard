@@ -1,136 +1,188 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta http-equiv="refresh" content="300">
-<title>AP Precalc - CYUP Leaderboard</title>
-<style>
-    :root {
-        --bg-color: #0f172a;
-        --text-color: #f1f5f9;
-        --row-bg: #1e293b;
-        --rank-color: #94a3b8;
-        --bar-track-color: #334155;
-        --bar-fill-start: #22d3ee;
-        --bar-fill-end: #3b82f6;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Classroom Dashboard</title>
+
+  <!-- Shared colors and fonts -->
+  <link rel="stylesheet" href="theme.css">
+
+  <style>
+    /* ---------- LAYOUT (rarely needs changing) ---------- */
+
+    html, body {
+      height: 100%;
+      margin: 0;
+      overflow: hidden;           /* no scrollbars on a wall TV */
     }
-    body {
-        background: var(--bg-color);
-        color: var(--text-color);
-        font-family: "Segoe UI", Arial, sans-serif;
-        margin: 0;
-        padding: 2vh 3vw;
+
+    /* #dashboard holds the two columns side by side */
+    #dashboard {
+      display: flex;
+      height: 100vh;
+      padding: var(--gap);
+      gap: var(--gap);
     }
-    h1 {
-        text-align: center;
-        font-size: 4vw;
-        margin-bottom: 1.5vh;
+
+    /* Each column stacks its panels top to bottom */
+    .column {
+      display: flex;
+      flex-direction: column;
+      gap: var(--gap);
+      min-width: 0;
     }
-    ul {
-        list-style: none;
-        margin: 0 auto;
-        padding: 0;
-        max-width: 94vw;
+
+    /* Embedded pages (leaderboard, chart, announcements) fill their panel */
+    .panel iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
     }
-    .row {
-        display: flex;
-        flex-direction: column;
-        gap: 1vh;
-        padding: 1.8vh 2.5vw;
-        margin-bottom: 1.5vh;
-        background: var(--row-bg);
-        border-radius: 16px;
+
+    /* ---------- CLOCK PANEL ---------- */
+
+    .clock {
+      padding: var(--pad);
+      text-align: left;
     }
-    .top-line {
-        display: flex;
-        align-items: baseline;
-        gap: 1.5vw;
+    .clock .time {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: var(--text-huge);
+      line-height: 1;
+      color: var(--gold);
     }
-    .rank {
-        font-size: 3vw;
-        font-weight: bold;
-        color: var(--rank-color);
+    .clock .date {
+      font-size: var(--text-body);
+      color: var(--muted);
+      margin-top: 8px;
     }
-    .name {
-        flex-grow: 1;
-        font-size: 4.2vw;
-        font-weight: 700;
-        line-height: 1.05;
-    }
-    .percentage {
-        font-size: 3.6vw;
-        font-weight: bold;
-    }
-    .bar-track {
-        background: var(--bar-track-color);
-        border-radius: 10px;
-        overflow: hidden;
-        height: 3.5vh;
-    }
-    .bar-fill {
-        height: 100%;
-        background: linear-gradient(90deg, var(--bar-fill-start), var(--bar-fill-end));
-    }
-    .last-updated {
-        text-align: center;
-        margin-top: 1vh;
-        font-size: 1.2vw;
-        color: var(--rank-color);
-    }
-</style>
+
+  </style>
 </head>
+
 <body>
-    <h1>AP Precalc - CYUP Leaderboard</h1>
-    <ul>
-        
-            <li class="row">
-                <div class="top-line">
-                    <span class="rank">#1</span>
-                    <span class="name">Period 6</span>
-                    <span class="percentage">48.0%</span>
-                </div>
-                <div class="bar-track">
-                    <div class="bar-fill" style="width: 48.0%;"></div>
-                </div>
-            </li>
-            
 
-            <li class="row">
-                <div class="top-line">
-                    <span class="rank">#2</span>
-                    <span class="name">Period 4</span>
-                    <span class="percentage">45.14%</span>
-                </div>
-                <div class="bar-track">
-                    <div class="bar-fill" style="width: 45.14%;"></div>
-                </div>
-            </li>
-            
+  <!-- The empty boxes below get filled in by the JavaScript at the bottom -->
+  <div id="dashboard">
+    <div class="column" id="col-left">
+      <section class="panel" id="left_top"></section>
+      <section class="panel" id="left_middle"></section>
+      <section class="panel" id="left_bottom"></section>
+    </div>
 
-            <li class="row">
-                <div class="top-line">
-                    <span class="rank">#3</span>
-                    <span class="name">Period 5</span>
-                    <span class="percentage">41.52%</span>
-                </div>
-                <div class="bar-track">
-                    <div class="bar-fill" style="width: 41.52%;"></div>
-                </div>
-            </li>
-            
+    <div class="column" id="col-right">
+      <section class="panel" id="right_top"></section>
+      <section class="panel" id="right_bottom"></section>
+    </div>
+  </div>
 
-            <li class="row">
-                <div class="top-line">
-                    <span class="rank">#4</span>
-                    <span class="name">Period 3</span>
-                    <span class="percentage">38.62%</span>
-                </div>
-                <div class="bar-track">
-                    <div class="bar-fill" style="width: 38.62%;"></div>
-                </div>
-            </li>
-            
-    </ul>
-    <p class="last-updated">Last updated 10/2/2026 at 3:20 PM</p>
+  <script>
+    /* ==========================================================
+       CONFIG BLOCK  -  this is the part you edit
+       ========================================================== */
+
+    // How wide each column is (should add up to about 100%)
+    const LAYOUT = {
+      left:  { width: "30%" },
+      right: { width: "70%" }
+    };
+
+    // What goes in each panel.
+    //   type: "clock"    -> built-in clock and date
+    //   type: "iframe"   -> shows another page; "src" is the file name
+    //   grow: how much vertical space the panel gets compared to the
+    //         others in its column (2 = twice as tall as 1).
+    //         Leave grow out for the clock (it sizes itself).
+    const PANELS = {
+      left_top:     { type: "clock" },
+      left_middle:  { type: "iframe",   src: "calendar.html",      grow: 3 },
+      left_bottom:  { type: "iframe",   src: "announcements.html", grow: 3 },
+      right_top:    { type: "iframe",   src: "leaderboard.html",   grow: 1 },
+      right_bottom: { type: "iframe",   src: "chart.html",         grow: 1 }
+    };
+
+    // Automatic refreshing, so updates you push to GitHub show up on their own
+    const REFRESH = {
+      iframeMinutes: 5,    // reload the embedded pages this often
+      pageMinutes:   60    // reload this whole page this often
+    };
+
+    /* ==========================================================
+       CODE BELOW  -  you shouldn't need to change this
+       ========================================================== */
+
+    // ---- 1. Set the column widths ----
+    // "0 1 30%" means: don't grow, may shrink a little (to make room
+    // for the gap between columns), start at 30% wide.
+    document.getElementById("col-left").style.flex  = "0 1 " + LAYOUT.left.width;
+    document.getElementById("col-right").style.flex = "0 1 " + LAYOUT.right.width;
+
+    // We keep a list of every iframe so we can refresh them later
+    const allIframes = [];
+
+    // ---- 2. Functions that draw each type of panel ----
+
+    // Clock: shows the time and date, updates every second
+    function drawClock(panel) {
+      panel.classList.add("clock");
+      panel.innerHTML = '<div class="time"></div><div class="date"></div>';
+      const timeEl = panel.querySelector(".time");
+      const dateEl = panel.querySelector(".date");
+
+      function tick() {
+        const now = new Date();
+        // Example output: "8:05 AM"
+        timeEl.textContent = now.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+        // Example output: "Monday, October 5"
+        dateEl.textContent = now.toLocaleDateString([], { weekday: "long", month: "long", day: "numeric" });
+      }
+
+      tick();                    // draw once right away
+      setInterval(tick, 1000);   // then redraw every 1000 milliseconds (1 second)
+    }
+
+    // Iframe: embeds another page from this repo
+    function drawIframe(panel, src) {
+      const frame = document.createElement("iframe");
+      frame.src = src;
+      panel.appendChild(frame);
+      allIframes.push({ frame: frame, src: src });
+    }
+
+    // ---- 3. Go through the PANELS config and draw each panel ----
+    for (const id in PANELS) {
+      const config = PANELS[id];
+      const panel = document.getElementById(id);
+
+      // Set the panel's height share (clock has no "grow", so it sizes itself)
+      if (config.grow) {
+        panel.style.flex = config.grow + " 1 0";
+      } else {
+        panel.style.flex = "0 0 auto";
+      }
+
+      if (config.type === "clock")    drawClock(panel);
+      if (config.type === "iframe")   drawIframe(panel, config.src);
+    }
+
+    // ---- 4. Automatic refreshing ----
+
+    // Reload each iframe. Adding "?t=<number>" to the address tricks the
+    // browser into fetching a fresh copy instead of using its saved one.
+    setInterval(function () {
+      for (const item of allIframes) {
+        item.frame.src = item.src + "?t=" + Date.now();
+      }
+    }, REFRESH.iframeMinutes * 60 * 1000);
+
+    // Reload the whole dashboard (picks up changes to index.html and theme.css)
+    setInterval(function () {
+      location.reload();
+    }, REFRESH.pageMinutes * 60 * 1000);
+  </script>
+
 </body>
 </html>

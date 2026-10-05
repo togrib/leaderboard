@@ -1,0 +1,96 @@
+{
+  "timezone": "America/Phoenix",
+  "events": [
+    {
+      "title": "student check-ins",
+      "date": "2026-10-05",
+      "all_day": true,
+      "start_time": null,
+      "end_time": null
+    },
+    {
+      "title": "1.13+1.14",
+      "date": "2026-10-05",
+      "all_day": true,
+      "start_time": null,
+      "end_time": null
+    },
+    {
+      "title": "student check-ins",
+      "date": "2026-10-06",
+      "all_day": true,
+      "start_time": null,
+      "end_time": null
+    },
+    {
+      "title": "1.13+1.14",
+      "date": "2026-10-06",
+      "all_day": true,
+      "start_time": null,
+      "end_time": null
+    },
+    {
+      "title": "student check-ins",
+      "date": "2026-10-07",
+      "all_day": true,
+      "start_time": null,
+      "end_time": null
+    },
+    {
+      "title": "student check-ins",
+      "date": "2026-10-08",
+      "all_day": true,
+      "start_time": null,
+      "end_time": null
+    },
+    {
+      "title": "assembly schedule",
+      "date": "2026-10-08",
+      "all_day": true,
+      "start_time": null,
+      "end_time": null
+    },
+    {
+      "title": "grading day",
+      "date": "2026-10-09",
+      "all_day": true,
+      "start_time": null,
+      "end_time": null
+    },
+    {
+      "title": "Fall break",
+      "date": "2026-10-12",
+      "all_day": true,
+      "start_time": null,
+      "end_time": null
+    },
+    {
+      "title": "Fall break",
+      "date": "2026-10-13",
+      "all_day": true,
+      "start_time": null,
+      "end_time": null
+    },
+    {
+      "title": "Fall break",
+      "date": "2026-10-14",
+      "all_day": true,
+      "start_time": null,
+      "end_time": null
+    },
+    {
+      "title": "Fall break",
+      "date": "2026-10-15",
+      "all_day": true,
+      "start_time": null,
+      "end_time": null
+    },
+    {
+      "title": "Fall break",
+      "date": "2026-10-16",
+      "all_day": true,
+      "start_time": null,
+      "end_time": null
+    }
+  ]
+}

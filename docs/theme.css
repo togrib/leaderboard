@@ -1,0 +1,93 @@
+/* ==========================================================
+   theme.css  -  shared look for every page in the dashboard
+   ----------------------------------------------------------
+   Every page does this in its <head>:
+       <link rel="stylesheet" href="theme.css">
+   To change the whole dashboard's look, edit the values in
+   the ":root" block below. Nothing else needs to change.
+   ========================================================== */
+
+/* Fonts (loaded from Google Fonts; the Pi needs internet).
+   If they fail to load, the fallbacks in --font-display and
+   --font-body are used instead. */
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&display=swap');
+
+:root {
+  /* ---------- COLORS ---------- */
+  --bg:        #0d1024;   /* page background: deep midnight blue   */
+  --panel:     #171b3a;   /* background of each panel/card         */
+  --line:      #2b3166;   /* thin borders and dividers             */
+  --text:      #f4f6ff;   /* main text (near white)                */
+  --muted:     #9ba4dd;   /* secondary text (dates, small notes)   */
+
+  --gold:      #ffd23f;   /* main accent: headings, highlights     */
+  --coral:     #ff4f6d;   /* hot accent: urgent items              */
+  --cyan:      #2de2e6;   /* cool accent: "practice" bars, links   */
+  --slate:     #6f79c4;   /* muted blue-purple: "no practice" bars */
+
+  /* ---------- FONTS ---------- */
+  --font-display: 'Barlow Condensed', 'Arial Narrow', Impact, sans-serif;
+  --font-body:    'Barlow', Arial, Helvetica, sans-serif;
+
+  /* ---------- SIZES (big, because it is read from across a room) ---------- */
+  --text-body:    1.75rem;   /* 28px at the default 16px */
+  --text-small:   1.35rem;
+  --text-heading: 2.6rem;
+  --text-huge:    7rem;      /* used for the clock */
+
+  /* ---------- SPACING ---------- */
+  --gap:    20px;            /* space between panels */
+  --pad:    28px;            /* space inside panels  */
+  --radius: 18px;            /* rounded corners      */
+}
+
+/* ---------- BASE STYLES ---------- */
+
+html {
+  color-scheme: dark;        /* tells the browser everything is dark (no white flashes) */
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: 1.35;
+}
+
+/* Sub-pages that get embedded inside a panel add class="embedded"
+   to their <body>. This makes their background match the panel. */
+body.embedded {
+  background: var(--panel);
+  padding: var(--pad);
+  overflow: hidden;
+}
+
+/* Headings use the tall, condensed font in gold */
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  color: var(--gold);
+  margin: 0 0 0.4em 0;
+  line-height: 1.05;
+}
+
+h1 { font-size: var(--text-heading); }
+h2 { font-size: calc(var(--text-heading) * 0.85); }
+
+a { color: var(--cyan); }
+
+/* ---------- PANEL (the cards on index.html) ---------- */
+
+.panel {
+  background: var(--panel);
+  border: 2px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  min-height: 0;             /* lets panels shrink instead of overflowing */
+}

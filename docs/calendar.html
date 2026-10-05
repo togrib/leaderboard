@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calendar</title>
+
+  <!-- Shared colors and fonts -->
+  <link rel="stylesheet" href="theme.css">
+
+  <style>
+    /* Fill the panel, so we can tell when events run off the bottom */
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+
+    /* Title on the left, page dots on the right */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .header h1 {
+      margin: 0 0 0.2em 0;
+    }
+    .dots {
+      display: flex;
+      gap: 10px;
+    }
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--line);
+    }
+    .dot.active {
+      background: var(--gold);
+    }
+
+    /* The events fade out and back in when the page changes */
+    #events {
+      transition: opacity 0.4s ease;
+    }
+
+    /* A day's heading, like "Today" or "Wed, Oct 7" */
+    .day-heading {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.7rem;
+      color: var(--muted);
+      margin: 14px 0 4px 0;
+    }
+    .day-heading.today {
+      color: var(--gold);
+    }
+
+    /* One event: time on the left, title on the right */
+    .event {
+      display: flex;
+      gap: 18px;
+      font-size: 1.5rem;
+      line-height: 1.25;
+      margin-bottom: 6px;
+    }
+    .time {
+      flex: 0 0 7.5rem;
+      color: var(--cyan);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .title {
+      /* Long titles wrap onto at most 2 lines, then get cut with "..." */
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .empty {
+      color: var(--muted);
+    }
+  </style>
+</head>
+
+<body class="embedded">
+
+  <div class="header">
+    <h1>Calendar</h1>
+    <div class="dots" id="dots"></div>
+  </div>
+  <div id="events"></div>
+
+  <script>
+    /* ==========================================================
+       SETTINGS  -  safe to change
+       ========================================================== */
+    const PAGE_SECONDS = 10;   // how long each page of events stays on screen
+
+    /* ==========================================================
+       CODE BELOW  -  you shouldn't need to change this
+       ========================================================== */
+
+    // Turn a Date into "2026-10-07" so we can compare days easily
+    function dayString(date) {
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return date.getFullYear() + "-" + month + "-" + day;
+    }
+
+    // Turn "15:00" into "3:00 PM"
+    function formatTime(hhmm) {
+      const parts = hhmm.split(":");
+      const hour = parseInt(parts[0], 10);
+      const suffix = hour >= 12 ? "PM" : "AM";
+      const hour12 = hour % 12 || 12;
+      return hour12 + ":" + parts[1] + " " + suffix;
+    }
+
+    // Has this event already finished? (calendar.json can be up to ~30 minutes
+    // old, so we hide finished events here instead of waiting for a new file.)
+    function isOver(event, now) {
+      // Days that have already passed are over
+      if (event.date < dayString(now)) return true;
+      if (event.all_day) return false;
+      const [year, month, day] = event.date.split("-").map(Number);
+      const [hour, minute] = (event.end_time || event.start_time).split(":").map(Number);
+      const finish = new Date(year, month - 1, day, hour, minute);
+      // If the event has no end time, treat it as lasting one hour
+      if (!event.end_time) finish.setHours(finish.getHours() + 1);
+      return finish < now;
+    }
+
+    // "Today", "Tomorrow", or something like "Wed, Oct 7"
+    function dayLabel(dateText, now) {
+      const today = dayString(now);
+      const tomorrowDate = new Date(now);
+      tomorrowDate.setDate(now.getDate() + 1);
+      if (dateText === today) return "Today";
+      if (dateText === dayString(tomorrowDate)) return "Tomorrow";
+
+      const [year, month, day] = dateText.split("-").map(Number);
+      return new Date(year, month - 1, day).toLocaleDateString([], {
+        weekday: "short", month: "short", day: "numeric"
+      });
+    }
+
+    // ---- Small helpers that create one piece of the page ----
+
+    // A day heading. "continued" adds "(cont.)" when a day's events
+    // spill over onto the next page.
+    function makeHeading(dateText, now, continued) {
+      const heading = document.createElement("div");
+      heading.className = "day-heading" + (dateText === dayString(now) ? " today" : "");
+      heading.textContent = dayLabel(dateText, now) + (continued ? " (cont.)" : "");
+      return heading;
+    }
+
+    // One event row: the time, then the title
+    function makeRow(event) {
+      const row = document.createElement("div");
+      row.className = "event";
+
+      const time = document.createElement("span");
+      time.className = "time";
+      time.textContent = event.all_day ? "All day" : formatTime(event.start_time);
+
+      const title = document.createElement("span");
+      title.className = "title";
+      title.textContent = event.title;   // textContent keeps odd characters safe
+
+      row.appendChild(time);
+      row.appendChild(title);
+      return row;
+    }
+
+    // Does the last thing in the box run past the bottom of the panel?
+    function overflows(box) {
+      const paddingBottom = parseFloat(getComputedStyle(document.body).paddingBottom);
+      const limit = window.innerHeight - paddingBottom;
+      return box.lastElementChild.getBoundingClientRect().bottom > limit;
+    }
+
+    // ---- Split the events into pages that each fit on screen ----
+    // We add events one at a time into the (real, visible) box. When one
+    // doesn't fit, we close the current page and start a new one with it.
+    // Returns a list of pages; each page is a list of page elements.
+    function buildPages(events, now, box) {
+      const pages = [];
+      let current = [];      // elements on the page we're building
+      let currentDay = "";   // the day of the previous event
+      box.innerHTML = "";
+
+      events.forEach(function (event) {
+        // Work out what this event needs on screen: a day heading (if it's
+        // a new day, or the first thing on a page) and the event row itself
+        function elementsNeeded() {
+          const needed = [];
+          if (event.date !== currentDay || current.length === 0) {
+            const continued = (event.date === currentDay);
+            needed.push(makeHeading(event.date, now, continued));
+          }
+          needed.push(makeRow(event));
+          return needed;
+        }
+
+        let needed = elementsNeeded();
+        needed.forEach(function (el) { box.appendChild(el); });
+
+        if (overflows(box) && current.length > 0) {
+          // Doesn't fit. Take it back off, close this page, start a new one.
+          needed.forEach(function (el) { box.removeChild(el); });
+          pages.push(current);
+          current = [];
+          box.innerHTML = "";
+
+          needed = elementsNeeded();
+          needed.forEach(function (el) { box.appendChild(el); });
+        }
+
+        current = current.concat(needed);
+        currentDay = event.date;
+      });
+
+      if (current.length > 0) pages.push(current);
+      return pages;
+    }
+
+    // Put one page of elements on screen
+    function showPage(box, page) {
+      box.innerHTML = "";
+      page.forEach(function (el) { box.appendChild(el); });
+    }
+
+    // Highlight the dot for the current page
+    function updateDots(pageNumber) {
+      document.querySelectorAll(".dot").forEach(function (dot, i) {
+        dot.classList.toggle("active", i === pageNumber);
+      });
+    }
+
+    function start(data) {
+      const now = new Date();
+      const box = document.getElementById("events");
+
+      // Keep only upcoming events
+      const upcoming = data.events.filter(function (event) { return !isOver(event, now); });
+
+      if (upcoming.length === 0) {
+        box.innerHTML = '<p class="empty">Nothing coming up.</p>';
+        return;
+      }
+
+      const pages = buildPages(upcoming, now, box);
+
+      // One dot per page (hidden if there's only one page)
+      const dotsBox = document.getElementById("dots");
+      if (pages.length > 1) {
+        pages.forEach(function () {
+          const dot = document.createElement("span");
+          dot.className = "dot";
+          dotsBox.appendChild(dot);
+        });
+      }
+
+      let pageNumber = 0;
+      showPage(box, pages[0]);
+      updateDots(0);
+
+      if (pages.length < 2) return;   // nothing to rotate
+
+      setInterval(function () {
+        box.style.opacity = 0;                          // fade out...
+        setTimeout(function () {
+          pageNumber = (pageNumber + 1) % pages.length;
+          showPage(box, pages[pageNumber]);             // ...swap the events...
+          updateDots(pageNumber);
+          box.style.opacity = 1;                        // ...fade back in
+        }, 400);
+      }, PAGE_SECONDS * 1000);
+    }
+
+    // Wait for the fonts (so measuring is accurate) AND the data
+    Promise.all([
+      fetch("calendar.json?t=" + Date.now()).then(function (r) { return r.json(); }),
+      document.fonts.ready
+    ])
+      .then(function (results) { start(results[0]); })
+      .catch(function (error) {
+        document.getElementById("events").innerHTML =
+          '<p class="empty">Could not load calendar.json.</p>';
+        console.error(error);
+      });
+  </script>
+
+</body>
+</html>

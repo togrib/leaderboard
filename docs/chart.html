@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Practice vs. No Practice</title>
+
+  <!-- Shared colors and fonts -->
+  <link rel="stylesheet" href="theme.css">
+
+  <style>
+    /* Make the page fill its panel, with the chart taking all leftover space */
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+    body.embedded {
+      display: flex;
+      flex-direction: column;
+      padding-bottom: 16px;
+    }
+
+    /* Unit name + subtitle on the left, color key on the right */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 24px;
+      margin-bottom: 8px;
+    }
+    .header h2 {
+      margin: 0;
+      display: inline;
+    }
+    .subtitle {
+      color: var(--muted);
+      font-size: var(--text-small);
+      margin-left: 18px;
+    }
+
+    .legend {
+      display: flex;
+      gap: 32px;
+      font-size: var(--text-small);
+    }
+    .legend span {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .swatch {
+      width: 20px;
+      height: 20px;
+      border-radius: 4px;
+    }
+    .swatch.practice { background: var(--cyan); }
+    .swatch.none     { background: var(--slate); }
+
+    /* The chart (or the overall summary) sits in this box.
+       It fades out and back in when the page changes. */
+    .chart-area {
+      flex: 1;
+      min-height: 0;
+      position: relative;
+      transition: opacity 0.4s ease;
+    }
+
+    /* ---------- "Overall" summary page ---------- */
+    .overall {
+      display: none;               /* only shown on the last page */
+      height: 100%;
+      align-items: center;
+      justify-content: space-around;
+      text-align: center;
+    }
+    .stat .number {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 8rem;
+      line-height: 1;
+    }
+    .stat .caption {
+      font-size: var(--text-small);
+      color: var(--muted);
+      margin-top: 6px;
+    }
+    .stat.none .number     { color: var(--slate); }
+    .stat.practice .number { color: var(--cyan); }
+    .stat.gap .number      { color: var(--gold); }
+
+    /* ---------- Footer: page dots on the left, note on the right ---------- */
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 6px;
+    }
+    .dots {
+      display: flex;
+      gap: 10px;
+    }
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--line);
+    }
+    .dot.active {
+      background: var(--gold);
+    }
+    .footnote {
+      color: var(--muted);
+      font-size: 1.1rem;
+      margin: 0;
+    }
+  </style>
+</head>
+
+<body class="embedded">
+
+  <div class="header">
+    <div>
+      <h2 id="page-title">Loading...</h2><span class="subtitle">average mastery score</span>
+    </div>
+    <div class="legend">
+      <span><span class="swatch none"></span>Didn't do the practice</span>
+      <span><span class="swatch practice"></span>Did the practice</span>
+    </div>
+  </div>
+
+  <div class="chart-area" id="chart-area">
+    <canvas id="chart"></canvas>
+
+    <div class="overall" id="overall">
+      <div class="stat none">
+        <div class="number" id="overall-none"></div>
+        <div class="caption">Didn't do the practice</div>
+      </div>
+      <div class="stat gap">
+        <div class="number" id="overall-gap"></div>
+        <div class="caption" id="overall-gap-caption"></div>
+      </div>
+      <div class="stat practice">
+        <div class="number" id="overall-practice"></div>
+        <div class="caption">Did the practice</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="dots" id="dots"></div>
+    <p class="footnote" id="footnote"></p>
+  </div>
+
+  <!-- Chart.js: the library that draws the bars -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+
+  <script>
+    /* ==========================================================
+       SETTINGS  -  safe to change
+       ========================================================== */
+    const PAGE_SECONDS = 30;          // how long each page stays on screen
+    const MAX_TOPICS_PER_PAGE = 8;    // a bigger unit is split into several pages
+    const SHOW_OVERALL_PAGE = true;   // add a final "Overall" summary page?
+
+    /* ==========================================================
+       CODE BELOW  -  you shouldn't need to change this
+       ========================================================== */
+
+    // Helper: read a color/font from theme.css, so the chart always matches
+    // the rest of the dashboard. Example: themeValue("--cyan") gives "#2de2e6"
+    const rootStyles = getComputedStyle(document.documentElement);
+    function themeValue(name) {
+      return rootStyles.getPropertyValue(name).trim();
+    }
+
+    // Average of a list of numbers (ignores empty slots)
+    function average(numbers) {
+      const good = numbers.filter(function (n) { return n !== null; });
+      if (good.length === 0) return null;
+      return good.reduce(function (a, b) { return a + b; }, 0) / good.length;
+    }
+
+    // ---- Turn the list of topics into a list of PAGES ----
+    // Each page is { title: "Unit 1A", topics: [...] }, one page per unit.
+    // (If chart-data.json has no "unit" info, everything goes on one page.)
+    function buildPages(topics) {
+      const unitOrder = [];
+      const byUnit = {};
+      topics.forEach(function (topic) {
+        const unit = topic.unit || "All topics";
+        if (!byUnit[unit]) {
+          byUnit[unit] = [];
+          unitOrder.push(unit);
+        }
+        byUnit[unit].push(topic);
+      });
+
+      const pages = [];
+      unitOrder.forEach(function (unit) {
+        const list = byUnit[unit];
+        // If a unit has too many topics, split it into equal-sized pages
+        const pieces = Math.ceil(list.length / MAX_TOPICS_PER_PAGE);
+        const size = Math.ceil(list.length / pieces);
+        for (let i = 0; i < pieces; i++) {
+          pages.push({
+            title: pieces > 1 ? unit + " (" + (i + 1) + " of " + pieces + ")" : unit,
+            topics: list.slice(i * size, (i + 1) * size)
+          });
+        }
+      });
+
+      // Optional last page: one big overall comparison
+      if (SHOW_OVERALL_PAGE && pages.length > 1) {
+        pages.push({ title: "Overall", topics: topics, overall: true });
+      }
+      return pages;
+    }
+
+    // A tiny custom "plugin" that writes each bar's number just above the bar.
+    // (There's no mouse on a wall TV, so we can't rely on hover tooltips.)
+    const valueLabelPlugin = {
+      id: "valueLabels",
+      afterDatasetsDraw: function (chart) {
+        const ctx = chart.ctx;
+        ctx.save();
+        ctx.fillStyle = themeValue("--text");
+        ctx.font = "600 18px " + themeValue("--font-body");
+        ctx.textAlign = "center";
+        ctx.textBaseline = "bottom";
+
+        chart.data.datasets.forEach(function (dataset, datasetIndex) {
+          const bars = chart.getDatasetMeta(datasetIndex).data;
+          bars.forEach(function (bar, i) {
+            if (dataset.data[i] === null) return;   // no students in this group
+            ctx.fillText(dataset.data[i].toFixed(2), bar.x, bar.y - 6);
+          });
+        });
+        ctx.restore();
+      }
+    };
+
+    // The topics currently on screen (the chart reads this when it draws)
+    let currentTopics = [];
+    let chart = null;
+
+    // Create the chart ONCE; later pages just swap its data
+    function createChart() {
+      Chart.defaults.font.family = themeValue("--font-body");
+      Chart.defaults.color = themeValue("--muted");
+
+      chart = new Chart(document.getElementById("chart"), {
+        type: "bar",
+        plugins: [valueLabelPlugin],
+        data: {
+          labels: [],
+          datasets: [
+            {
+              label: "Didn't do the practice",
+              data: [],
+              backgroundColor: themeValue("--slate"),
+              borderRadius: 4
+            },
+            {
+              label: "Did the practice",
+              data: [],
+              backgroundColor: themeValue("--cyan"),
+              borderRadius: 4
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          animation: false,                       // easier on the Raspberry Pi
+          layout: { padding: { top: 28 } },       // room for the number above the tallest bar
+          plugins: {
+            legend:  { display: false },          // we made our own legend in HTML
+            tooltip: { enabled: false }
+          },
+          scales: {
+            x: {
+              grid: { display: false },
+              ticks: {
+                font: { size: 20 },
+                color: themeValue("--text"),
+                // Two lines under each pair of bars: topic, then group sizes
+                callback: function (value, index) {
+                  const t = currentTopics[index];
+                  return [t.label, "(n=" + t.n_no_practice + " / " + t.n_practice + ")"];
+                }
+              }
+            },
+            y: {
+              min: 1,
+              max: 4,
+              grid: { color: themeValue("--line") },
+              ticks: {
+                font: { size: 18 },
+                stepSize: 1,
+                callback: function (v) {
+                  if (v === 1) return "1 (N)";
+                  if (v === 4) return "4 (E)";
+                  return v;
+                }
+              }
+            }
+          }
+        }
+      });
+    }
+
+    // Put one page's content on screen
+    function applyPage(page) {
+      document.getElementById("page-title").textContent = page.title;
+
+      if (page.overall) {
+        // ----- Overall summary: average of the topic averages -----
+        const none = average(page.topics.map(function (t) { return t.no_practice_mean; }));
+        const yes  = average(page.topics.map(function (t) { return t.practice_mean; }));
+        const gap  = yes - none;
+        document.getElementById("overall-none").textContent = none.toFixed(2);
+        document.getElementById("overall-practice").textContent = yes.toFixed(2);
+        document.getElementById("overall-gap").textContent = (gap >= 0 ? "+" : "") + gap.toFixed(2);
+        document.getElementById("overall-gap-caption").textContent =
+          "average across all " + page.topics.length + " topics";
+        document.getElementById("chart").style.display = "none";
+        document.getElementById("overall").style.display = "flex";
+      } else {
+        // ----- Regular chart page -----
+        currentTopics = page.topics;
+        chart.data.labels = page.topics.map(function (t) { return t.label; });
+        chart.data.datasets[0].data = page.topics.map(function (t) { return t.no_practice_mean; });
+        chart.data.datasets[1].data = page.topics.map(function (t) { return t.practice_mean; });
+        document.getElementById("overall").style.display = "none";
+        document.getElementById("chart").style.display = "block";
+        chart.resize();      // re-measure, since the canvas was just un-hidden
+        chart.update();
+      }
+    }
+
+    // Highlight the dot for the current page
+    function updateDots(pageNumber) {
+      const dots = document.querySelectorAll(".dot");
+      dots.forEach(function (dot, i) {
+        dot.classList.toggle("active", i === pageNumber);
+      });
+    }
+
+    // Draw everything, then start flipping through pages
+    function start(data) {
+      const pages = buildPages(data.topics);
+      createChart();
+
+      // One dot per page (hidden if there's only one page)
+      const dotsBox = document.getElementById("dots");
+      if (pages.length > 1) {
+        pages.forEach(function () {
+          const dot = document.createElement("span");
+          dot.className = "dot";
+          dotsBox.appendChild(dot);
+        });
+      }
+
+      document.getElementById("footnote").textContent =
+        "n = number of students (no practice / practice). Updated " + data.updated + ".";
+
+      let pageNumber = 0;
+      applyPage(pages[0]);
+      updateDots(0);
+
+      if (pages.length < 2) return;   // nothing to rotate
+
+      const area = document.getElementById("chart-area");
+      setInterval(function () {
+        area.style.opacity = 0;                      // fade out...
+        setTimeout(function () {
+          pageNumber = (pageNumber + 1) % pages.length;
+          applyPage(pages[pageNumber]);              // ...swap the content...
+          updateDots(pageNumber);
+          area.style.opacity = 1;                    // ...fade back in
+        }, 400);
+      }, PAGE_SECONDS * 1000);
+    }
+
+    // Wait for the fonts AND the data, then draw.
+    // (Drawing before the font loads would make the chart text look wrong.)
+    Promise.all([
+      fetch("chart-data.json?t=" + Date.now()).then(function (r) { return r.json(); }),
+      document.fonts.ready
+    ])
+      .then(function (results) { start(results[0]); })
+      .catch(function (error) {
+        document.getElementById("footnote").textContent =
+          "Could not load chart-data.json. Check it for typos.";
+        console.error(error);
+      });
+  </script>
+
+</body>
+</html>

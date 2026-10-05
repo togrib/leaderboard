@@ -1,0 +1,119 @@
+/* ==========================================================
+   leaderboard.css  -  styling just for leaderboard.html
+   ----------------------------------------------------------
+   Colors, fonts and sizes come from theme.css (the var(--...)
+   names below). To change the leaderboard's look, edit this
+   file and push. No need to run the Python script.
+   ========================================================== */
+
+/* Fill the panel: title on top, rows share the remaining height */
+html, body {
+  height: 100%;
+  margin: 0;
+}
+body.embedded {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Title on the left, "last updated" on the right */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 24px;
+  margin-bottom: 14px;
+}
+.header h1 {
+  margin: 0;
+}
+.last-updated {
+  margin: 0;
+  color: var(--muted);
+  font-size: 1.1rem;
+  white-space: nowrap;
+}
+
+/* The list of class periods */
+.board {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex: 1;                 /* take all the leftover height */
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* One row = rank | name | bar | percentage, lined up in a grid */
+.row {
+  flex: 1 1 0;             /* every row gets an equal share of the height */
+  max-height: 96px;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 4.5rem 12rem 1fr 8.5rem;
+  align-items: center;
+  column-gap: 20px;
+  padding: 0 24px;
+  background: var(--bg);
+  border-left: 6px solid var(--line);
+  border-radius: 14px;
+}
+
+/* First place gets gold highlights */
+.row.leader {
+  border-left-color: var(--gold);
+}
+.row.leader .rank,
+.row.leader .percentage {
+  color: var(--gold);
+}
+.row.leader .bar-fill {
+  background: var(--gold);
+}
+
+.rank {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 2.2rem;
+  color: var(--muted);
+}
+
+.name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 2.4rem;
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bar-track {
+  height: 30px;
+  background: var(--line);
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+/* The colored part of the bar. It "grows" from the left each time the
+   page loads (cheap for the Pi: it only animates one property). */
+.bar-fill {
+  height: 100%;
+  background: var(--cyan);
+  border-radius: 15px;
+  transform-origin: left;
+  animation: grow 1s ease-out;
+}
+@keyframes grow {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+.percentage {
+  text-align: right;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 2.6rem;
+}
