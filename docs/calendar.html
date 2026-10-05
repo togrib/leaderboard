@@ -239,12 +239,38 @@
       });
     }
 
-    function start(data) {
+    // The calendar data, kept so we can redraw whenever the panel's size changes
+    let calendarData = null;
+    let rotationTimer = null;   // the timer that flips pages
+    let renderId = 0;           // lets us ignore leftovers from an older drawing
+    let lastHeight = 0;         // panel height at the last drawing
+    let notReadyCount = 0;      // how many times we waited for the layout to settle
+
+    // Draw (or redraw) the calendar for the panel's CURRENT size
+    function render() {
+      if (!calendarData) return;
+
+      // If the panel hasn't been given its real size yet (it reports a tiny
+      // height), measuring now would give wrong answers. Wait and try again.
+      if (window.innerHeight < 150 && notReadyCount < 20) {
+        notReadyCount++;
+        setTimeout(render, 500);
+        return;
+      }
+
+      clearInterval(rotationTimer);
+      renderId++;
+      const thisRender = renderId;
+      lastHeight = window.innerHeight;
+
       const now = new Date();
       const box = document.getElementById("events");
+      const dotsBox = document.getElementById("dots");
+      box.style.opacity = 1;
+      dotsBox.innerHTML = "";
 
       // Keep only upcoming events
-      const upcoming = data.events.filter(function (event) { return !isOver(event, now); });
+      const upcoming = calendarData.events.filter(function (event) { return !isOver(event, now); });
 
       if (upcoming.length === 0) {
         box.innerHTML = '<p class="empty">Nothing coming up.</p>';
@@ -254,7 +280,6 @@
       const pages = buildPages(upcoming, now, box);
 
       // One dot per page (hidden if there's only one page)
-      const dotsBox = document.getElementById("dots");
       if (pages.length > 1) {
         pages.forEach(function () {
           const dot = document.createElement("span");
@@ -269,9 +294,10 @@
 
       if (pages.length < 2) return;   // nothing to rotate
 
-      setInterval(function () {
+      rotationTimer = setInterval(function () {
         box.style.opacity = 0;                          // fade out...
         setTimeout(function () {
+          if (thisRender !== renderId) return;          // we've been redrawn; skip
           pageNumber = (pageNumber + 1) % pages.length;
           showPage(box, pages[pageNumber]);             // ...swap the events...
           updateDots(pageNumber);
@@ -280,12 +306,26 @@
       }, PAGE_SECONDS * 1000);
     }
 
+    // Redraw if the panel changes size (for example, the page finishes laying
+    // out, or the browser window changes). The short delay avoids redrawing
+    // dozens of times while a resize is still in motion.
+    let resizeTimer = null;
+    window.addEventListener("resize", function () {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function () {
+        if (Math.abs(window.innerHeight - lastHeight) > 5) render();
+      }, 300);
+    });
+
+    // Redraw when a web font finishes loading (text size can change slightly)
+    document.fonts.addEventListener("loadingdone", function () { render(); });
+
     // Wait for the fonts (so measuring is accurate) AND the data
     Promise.all([
       fetch("calendar.json?t=" + Date.now()).then(function (r) { return r.json(); }),
       document.fonts.ready
     ])
-      .then(function (results) { start(results[0]); })
+      .then(function (results) { calendarData = results[0]; render(); })
       .catch(function (error) {
         document.getElementById("events").innerHTML =
           '<p class="empty">Could not load calendar.json.</p>';
