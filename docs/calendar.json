@@ -2,28 +2,14 @@
   "timezone": "America/Phoenix",
   "events": [
     {
-      "title": "student check-ins",
-      "date": "2026-10-05",
-      "all_day": true,
-      "start_time": null,
-      "end_time": null
-    },
-    {
       "title": "1.13+1.14",
-      "date": "2026-10-05",
-      "all_day": true,
-      "start_time": null,
-      "end_time": null
-    },
-    {
-      "title": "student check-ins",
       "date": "2026-10-06",
       "all_day": true,
       "start_time": null,
       "end_time": null
     },
     {
-      "title": "1.13+1.14",
+      "title": "student check-ins",
       "date": "2026-10-06",
       "all_day": true,
       "start_time": null,
@@ -37,14 +23,14 @@
       "end_time": null
     },
     {
-      "title": "student check-ins",
+      "title": "assembly schedule",
       "date": "2026-10-08",
       "all_day": true,
       "start_time": null,
       "end_time": null
     },
     {
-      "title": "assembly schedule",
+      "title": "student check-ins",
       "date": "2026-10-08",
       "all_day": true,
       "start_time": null,
@@ -88,6 +74,13 @@
     {
       "title": "Fall break",
       "date": "2026-10-16",
+      "all_day": true,
+      "start_time": null,
+      "end_time": null
+    },
+    {
+      "title": "2.1+2.2",
+      "date": "2026-10-19",
       "all_day": true,
       "start_time": null,
       "end_time": null
