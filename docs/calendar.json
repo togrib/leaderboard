@@ -2,14 +2,14 @@
   "timezone": "America/Phoenix",
   "events": [
     {
-      "title": "assembly schedule",
+      "title": "student check-ins",
       "date": "2026-10-08",
       "all_day": true,
       "start_time": null,
       "end_time": null
     },
     {
-      "title": "student check-ins",
+      "title": "assembly schedule",
       "date": "2026-10-08",
       "all_day": true,
       "start_time": null,
