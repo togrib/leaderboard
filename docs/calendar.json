@@ -2,20 +2,6 @@
   "timezone": "America/Phoenix",
   "events": [
     {
-      "title": "assembly schedule",
-      "date": "2026-10-08",
-      "all_day": true,
-      "start_time": null,
-      "end_time": null
-    },
-    {
-      "title": "student check-ins",
-      "date": "2026-10-08",
-      "all_day": true,
-      "start_time": null,
-      "end_time": null
-    },
-    {
       "title": "grading day",
       "date": "2026-10-09",
       "all_day": true,
@@ -74,6 +60,13 @@
     {
       "title": "2.3",
       "date": "2026-10-21",
+      "all_day": true,
+      "start_time": null,
+      "end_time": null
+    },
+    {
+      "title": "Review for Unit 1B (1.7-1.14) exam",
+      "date": "2026-10-22",
       "all_day": true,
       "start_time": null,
       "end_time": null
