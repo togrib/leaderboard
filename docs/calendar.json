@@ -3,13 +3,6 @@
   "events": [
     {
       "title": "Fall break",
-      "date": "2026-10-15",
-      "all_day": true,
-      "start_time": null,
-      "end_time": null
-    },
-    {
-      "title": "Fall break",
       "date": "2026-10-16",
       "all_day": true,
       "start_time": null,
