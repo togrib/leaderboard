@@ -1,12 +1,23 @@
+# Runs fetch_calendar.py automatically so the dashboard calendar stays fresh.
+# This file must live at:  .github/workflows/calendar.yml  (top level of the repo,
+# NOT inside the docs folder).
+
 name: Update calendar
 
 on:
   schedule:
-    - cron: "*/30 * * * *"
-  workflow_dispatch:
+    - cron: "*/30 * * * *"   # every 30 minutes (GitHub may run it a few minutes late)
+  workflow_dispatch:          # also adds a "Run workflow" button on the Actions tab
 
+# Lets this job save changes back to your repo
 permissions:
   contents: write
+
+# If a run is already going, make the next one wait instead of running at the
+# same time (two overlapping runs can collide when they try to save).
+concurrency:
+  group: calendar-update
+  cancel-in-progress: false
 
 jobs:
   update:
@@ -31,4 +42,11 @@ jobs:
           git config user.name "calendar-bot"
           git config user.email "calendar-bot@users.noreply.github.com"
           git add docs/calendar.json
-          git diff --cached --quiet || (git commit -m "Update calendar" && git push)
+          if ! git diff --cached --quiet; then
+            git commit -m "Update calendar"
+            # Someone else may have pushed while we were working. Catch up with
+            # their changes first. If calendar.json itself clashes, keep ours
+            # (it's the newest). Then push.
+            git pull --rebase -X theirs origin main
+            git push
+          fi
