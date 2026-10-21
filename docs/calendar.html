@@ -96,6 +96,8 @@
        SETTINGS  -  safe to change
        ========================================================== */
     const PAGE_SECONDS = 10;   // how long each page of events stays on screen
+    const SHOW_TIMES = false;  // true = show "3:00 PM" / "All day" next to each event
+                               // false = show just the event titles
 
     /* ==========================================================
        CODE BELOW  -  you shouldn't need to change this
@@ -161,15 +163,18 @@
       const row = document.createElement("div");
       row.className = "event";
 
-      const time = document.createElement("span");
-      time.className = "time";
-      time.textContent = event.all_day ? "All day" : formatTime(event.start_time);
+      // The time column only exists when SHOW_TIMES is true
+      if (SHOW_TIMES) {
+        const time = document.createElement("span");
+        time.className = "time";
+        time.textContent = event.all_day ? "All day" : formatTime(event.start_time);
+        row.appendChild(time);
+      }
 
       const title = document.createElement("span");
       title.className = "title";
       title.textContent = event.title;   // textContent keeps odd characters safe
 
-      row.appendChild(time);
       row.appendChild(title);
       return row;
     }
