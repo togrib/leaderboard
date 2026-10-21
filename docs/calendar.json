@@ -2,7 +2,7 @@
   "timezone": "America/Phoenix",
   "events": [
     {
-      "title": "2.3",
+      "title": "2.2 - Change in Lnear and Exponential Functions",
       "date": "2026-10-21",
       "all_day": true,
       "start_time": null,
@@ -39,6 +39,55 @@
     {
       "title": "Unit 1B exam (1.7-1.14)",
       "date": "2026-10-27",
+      "all_day": true,
+      "start_time": null,
+      "end_time": null
+    },
+    {
+      "title": "2.3 - Exponential Functions",
+      "date": "2026-10-28",
+      "all_day": true,
+      "start_time": null,
+      "end_time": null
+    },
+    {
+      "title": "2.4 - Exponential Function Manipulation",
+      "date": "2026-10-29",
+      "all_day": true,
+      "start_time": null,
+      "end_time": null
+    },
+    {
+      "title": "2.5 - Exponential Function Context and Modeling",
+      "date": "2026-10-30",
+      "all_day": true,
+      "start_time": null,
+      "end_time": null
+    },
+    {
+      "title": "Go over Unit 1B Exam",
+      "date": "2026-11-02",
+      "all_day": true,
+      "start_time": null,
+      "end_time": null
+    },
+    {
+      "title": "2.6 - Competing Models",
+      "date": "2026-11-02",
+      "all_day": true,
+      "start_time": null,
+      "end_time": null
+    },
+    {
+      "title": "Go over Unit 1B Exam",
+      "date": "2026-11-03",
+      "all_day": true,
+      "start_time": null,
+      "end_time": null
+    },
+    {
+      "title": "2.6 - Competing Models",
+      "date": "2026-11-03",
       "all_day": true,
       "start_time": null,
       "end_time": null
