@@ -41,12 +41,32 @@ jobs:
         run: |
           git config user.name "calendar-bot"
           git config user.email "calendar-bot@users.noreply.github.com"
-          git add docs/calendar.json
-          if ! git diff --cached --quiet; then
+
+          # Keep a copy of the fresh calendar file we just made
+          cp docs/calendar.json "$RUNNER_TEMP/calendar.json"
+
+          # Try up to 5 times, because someone else may push at the same moment.
+          for attempt in 1 2 3 4 5; do
+            # Jump to the very latest version of the repo...
+            git fetch origin main
+            git reset --hard origin/main
+            # ...and put our fresh calendar file on top of it
+            cp "$RUNNER_TEMP/calendar.json" docs/calendar.json
+            git add docs/calendar.json
+
+            if git diff --cached --quiet; then
+              echo "Calendar unchanged. Nothing to save."
+              exit 0
+            fi
+
             git commit -m "Update calendar"
-            # Someone else may have pushed while we were working. Catch up with
-            # their changes first. If calendar.json itself clashes, keep ours
-            # (it's the newest). Then push.
-            git pull --rebase -X theirs origin main
-            git push
-          fi
+            if git push origin HEAD:main; then
+              echo "Saved on attempt $attempt."
+              exit 0
+            fi
+            echo "Push was rejected (attempt $attempt). Trying again..."
+            sleep 5
+          done
+
+          echo "Could not save after 5 attempts."
+          exit 1
