@@ -2,14 +2,14 @@
   "timezone": "America/Phoenix",
   "events": [
     {
-      "title": "PSAT/NMSQT",
+      "title": "Review for Unit 1B (1.7-1.14) exam",
       "date": "2026-10-22",
       "all_day": true,
       "start_time": null,
       "end_time": null
     },
     {
-      "title": "Review for Unit 1B (1.7-1.14) exam",
+      "title": "PSAT/NMSQT",
       "date": "2026-10-22",
       "all_day": true,
       "start_time": null,
@@ -58,13 +58,6 @@
       "end_time": null
     },
     {
-      "title": "Go over Unit 1B Exam",
-      "date": "2026-11-02",
-      "all_day": true,
-      "start_time": null,
-      "end_time": null
-    },
-    {
       "title": "2.6 - Competing Models",
       "date": "2026-11-02",
       "all_day": true,
@@ -73,13 +66,20 @@
     },
     {
       "title": "Go over Unit 1B Exam",
+      "date": "2026-11-02",
+      "all_day": true,
+      "start_time": null,
+      "end_time": null
+    },
+    {
+      "title": "2.6 - Competing Models",
       "date": "2026-11-03",
       "all_day": true,
       "start_time": null,
       "end_time": null
     },
     {
-      "title": "2.6 - Competing Models",
+      "title": "Go over Unit 1B Exam",
       "date": "2026-11-03",
       "all_day": true,
       "start_time": null,
