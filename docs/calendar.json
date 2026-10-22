@@ -2,13 +2,6 @@
   "timezone": "America/Phoenix",
   "events": [
     {
-      "title": "2.2 - Change in Lnear and Exponential Functions",
-      "date": "2026-10-21",
-      "all_day": true,
-      "start_time": null,
-      "end_time": null
-    },
-    {
       "title": "PSAT/NMSQT",
       "date": "2026-10-22",
       "all_day": true,
