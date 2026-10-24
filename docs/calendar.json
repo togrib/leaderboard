@@ -2,13 +2,6 @@
   "timezone": "America/Phoenix",
   "events": [
     {
-      "title": "Review for Unit 1B (1.7-1.14) exam",
-      "date": "2026-10-23",
-      "all_day": true,
-      "start_time": null,
-      "end_time": null
-    },
-    {
       "title": "Unit 1B exam (1.7-1.14)",
       "date": "2026-10-26",
       "all_day": true,
@@ -44,13 +37,6 @@
       "end_time": null
     },
     {
-      "title": "Go over Unit 1B Exam",
-      "date": "2026-11-02",
-      "all_day": true,
-      "start_time": null,
-      "end_time": null
-    },
-    {
       "title": "2.6 - Competing Models",
       "date": "2026-11-02",
       "all_day": true,
@@ -59,13 +45,20 @@
     },
     {
       "title": "Go over Unit 1B Exam",
+      "date": "2026-11-02",
+      "all_day": true,
+      "start_time": null,
+      "end_time": null
+    },
+    {
+      "title": "2.6 - Competing Models",
       "date": "2026-11-03",
       "all_day": true,
       "start_time": null,
       "end_time": null
     },
     {
-      "title": "2.6 - Competing Models",
+      "title": "Go over Unit 1B Exam",
       "date": "2026-11-03",
       "all_day": true,
       "start_time": null,
