@@ -2,13 +2,6 @@
   "timezone": "America/Phoenix",
   "events": [
     {
-      "title": "2.3 - Exponential Functions",
-      "date": "2026-10-28",
-      "all_day": true,
-      "start_time": null,
-      "end_time": null
-    },
-    {
       "title": "2.4 - Exponential Function Manipulation",
       "date": "2026-10-29",
       "all_day": true,
