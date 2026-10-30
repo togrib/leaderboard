@@ -2,7 +2,7 @@
   "timezone": "America/Phoenix",
   "events": [
     {
-      "title": "2.5 - Exponential Function Context and Modeling",
+      "title": "Catch up day",
       "date": "2026-10-30",
       "all_day": true,
       "start_time": null,
@@ -37,7 +37,7 @@
       "end_time": null
     },
     {
-      "title": "2.6 - Competing Models",
+      "title": "2.5 - Exponential Function Context and Modeling",
       "date": "2026-11-04",
       "all_day": true,
       "start_time": null,
@@ -46,6 +46,13 @@
     {
       "title": "2.6 - Competing Models",
       "date": "2026-11-05",
+      "all_day": true,
+      "start_time": null,
+      "end_time": null
+    },
+    {
+      "title": "2.6 - Competing Models",
+      "date": "2026-11-06",
       "all_day": true,
       "start_time": null,
       "end_time": null
