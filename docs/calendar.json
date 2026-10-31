@@ -2,13 +2,6 @@
   "timezone": "America/Phoenix",
   "events": [
     {
-      "title": "Catch up day",
-      "date": "2026-10-30",
-      "all_day": true,
-      "start_time": null,
-      "end_time": null
-    },
-    {
       "title": "Quiz 4 (2.1-2.4)",
       "date": "2026-11-02",
       "all_day": true,
