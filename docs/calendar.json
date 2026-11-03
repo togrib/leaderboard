@@ -2,14 +2,14 @@
   "timezone": "America/Phoenix",
   "events": [
     {
-      "title": "Go over Unit 1B Exam",
+      "title": "Quiz 4 (2.1-2.4)",
       "date": "2026-11-03",
       "all_day": true,
       "start_time": null,
       "end_time": null
     },
     {
-      "title": "Quiz 4 (2.1-2.4)",
+      "title": "Go over Unit 1B Exam",
       "date": "2026-11-03",
       "all_day": true,
       "start_time": null,
@@ -23,14 +23,14 @@
       "end_time": null
     },
     {
-      "title": "2.6 - Competing Models",
+      "title": "AMC 10/12 A",
       "date": "2026-11-05",
       "all_day": true,
       "start_time": null,
       "end_time": null
     },
     {
-      "title": "AMC 10/12 A",
+      "title": "2.6 - Competing Models",
       "date": "2026-11-05",
       "all_day": true,
       "start_time": null,
