@@ -2,20 +2,6 @@
   "timezone": "America/Phoenix",
   "events": [
     {
-      "title": "Go over Unit 1B Exam",
-      "date": "2026-11-03",
-      "all_day": true,
-      "start_time": null,
-      "end_time": null
-    },
-    {
-      "title": "Quiz 4 (2.1-2.4)",
-      "date": "2026-11-03",
-      "all_day": true,
-      "start_time": null,
-      "end_time": null
-    },
-    {
       "title": "2.5 - Exponential Function Context and Modeling",
       "date": "2026-11-04",
       "all_day": true,
@@ -88,6 +74,13 @@
     {
       "title": "Unit 2A Exam?",
       "date": "2026-11-16",
+      "all_day": true,
+      "start_time": null,
+      "end_time": null
+    },
+    {
+      "title": "Unit 2A Exam?",
+      "date": "2026-11-17",
       "all_day": true,
       "start_time": null,
       "end_time": null
