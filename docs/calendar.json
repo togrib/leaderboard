@@ -2,8 +2,15 @@
   "timezone": "America/Phoenix",
   "events": [
     {
-      "title": "2.6 - Competing Models",
+      "title": "2.7+2.8 - Composition and Inverse",
       "date": "2026-11-06",
+      "all_day": true,
+      "start_time": null,
+      "end_time": null
+    },
+    {
+      "title": "Give Unit Review (2.1-2.8)",
+      "date": "2026-11-09",
       "all_day": true,
       "start_time": null,
       "end_time": null
@@ -11,6 +18,13 @@
     {
       "title": "2.7+2.8 - Composition and Inverse",
       "date": "2026-11-09",
+      "all_day": true,
+      "start_time": null,
+      "end_time": null
+    },
+    {
+      "title": "Give Unit Review (2.1-2.8)",
+      "date": "2026-11-10",
       "all_day": true,
       "start_time": null,
       "end_time": null
@@ -51,15 +65,22 @@
       "end_time": null
     },
     {
-      "title": "Unit 2A Exam?",
+      "title": "Unit 2A Exam",
       "date": "2026-11-16",
       "all_day": true,
       "start_time": null,
       "end_time": null
     },
     {
-      "title": "Unit 2A Exam?",
+      "title": "Unit 2A Exam",
       "date": "2026-11-17",
+      "all_day": true,
+      "start_time": null,
+      "end_time": null
+    },
+    {
+      "title": "2.9 - Logarithmic Expressions",
+      "date": "2026-11-18",
       "all_day": true,
       "start_time": null,
       "end_time": null
