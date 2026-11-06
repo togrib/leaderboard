@@ -275,6 +275,10 @@ def git_commit_and_push(repo_path, commit_message):
     commands = [
         ["git", "add", "-A"],
         ["git", "commit", "-m", commit_message],
+        # Catch up with anything pushed since we last pulled (for example the
+        # calendar bot's updates), then push. Without this, the push is
+        # rejected whenever GitHub has a newer commit than this computer.
+        ["git", "pull", "--rebase"],
         ["git", "push"],
     ]
 

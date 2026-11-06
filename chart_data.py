@@ -121,6 +121,14 @@ TOPICS = [
     {"label": "1.11", "name": "Equivalent Representations",
      "practice_columns": ["CYUP - 1.11 - "],
      "mastery_columns": ["Unit 1B > 1.11 result"]},
+    
+    {"label": "1.12", "name": "Transformations",
+     "practice_columns": ["CYUP - 1.12 - "],
+     "mastery_columns": ["Unit 1B > 1.12 result"]},
+
+    {"label": "1.13+1.14", "name": "Modeling and Validation",
+     "practice_columns": ["CYUP - 1.13+1.14"],
+     "mastery_columns": ["Unit 1B > 1.13 result", "Unit 1B > 1.14 result"]},
 ]
 
 
