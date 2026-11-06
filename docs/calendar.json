@@ -16,7 +16,7 @@
       "end_time": null
     },
     {
-      "title": "2.7+2.8 - Composition and Inverse",
+      "title": "2.7+2.8 - Composition and Inverse (cont)",
       "date": "2026-11-09",
       "all_day": true,
       "start_time": null,
@@ -30,7 +30,7 @@
       "end_time": null
     },
     {
-      "title": "2.7+2.8 - Composition and Inverse",
+      "title": "2.7+2.8 - Composition and Inverse (cont)",
       "date": "2026-11-10",
       "all_day": true,
       "start_time": null,
@@ -81,6 +81,13 @@
     {
       "title": "2.9 - Logarithmic Expressions",
       "date": "2026-11-18",
+      "all_day": true,
+      "start_time": null,
+      "end_time": null
+    },
+    {
+      "title": "Inverse of Exponential Functions",
+      "date": "2026-11-19",
       "all_day": true,
       "start_time": null,
       "end_time": null
