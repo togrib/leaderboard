@@ -129,6 +129,22 @@ TOPICS = [
     {"label": "1.13+1.14", "name": "Modeling and Validation",
      "practice_columns": ["CYUP - 1.13+1.14"],
      "mastery_columns": ["Unit 1B > 1.13 result", "Unit 1B > 1.14 result"]},
+
+    {"label": "2.1", "name": "Arithmetic and Geometric Sequences",
+     "practice_columns": ["CYUP - 2.1"],
+     "mastery_columns": ["Unit 2A > 2.1 result"]},
+
+    {"label": "2.2", "name": "Change in Linear and Exponential Functions",
+     "practice_columns": ["CYUP - 2.2"],
+     "mastery_columns": ["Unit 2A > 2.2 result"]},
+
+    {"label": "2.3", "name": "Exponential Functions",
+     "practice_columns": ["CYUP - 2.3"],
+     "mastery_columns": ["Unit 2A > 2.3 result"]},
+
+    {"label": "2.4", "name": "Exponential Function Manipulation",
+     "practice_columns": ["CYUP - 2.4"],
+     "mastery_columns": ["Unit 2A > 2.4 result"]},
 ]
 
 

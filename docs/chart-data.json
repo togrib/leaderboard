@@ -1,11 +1,11 @@
 {
-  "updated": "11/5/2026",
+  "updated": "11/10/2026",
   "topics": [
     {
       "label": "1.1+1.2",
       "name": "Rates of Change",
       "unit": "Unit 1A",
-      "practice_mean": 3.2638,
+      "practice_mean": 3.2695,
       "no_practice_mean": 2.8524,
       "n_practice": 82,
       "n_no_practice": 50
@@ -68,37 +68,73 @@
       "label": "1.9+1.10",
       "name": "Vertical Asymptotes & Holes",
       "unit": "Unit 1B",
-      "practice_mean": 3.0487,
-      "no_practice_mean": 2.6199,
-      "n_practice": 59,
-      "n_no_practice": 73
+      "practice_mean": 3.0542,
+      "no_practice_mean": 2.6094,
+      "n_practice": 60,
+      "n_no_practice": 72
     },
     {
       "label": "1.11",
       "name": "Equivalent Representations",
       "unit": "Unit 1B",
-      "practice_mean": 3.0755,
-      "no_practice_mean": 2.9051,
-      "n_practice": 53,
-      "n_no_practice": 79
+      "practice_mean": 3.0694,
+      "no_practice_mean": 2.9071,
+      "n_practice": 54,
+      "n_no_practice": 78
     },
     {
       "label": "1.12",
       "name": "Transformations",
       "unit": "Unit 1B",
-      "practice_mean": 3.2286,
-      "no_practice_mean": 2.7447,
-      "n_practice": 35,
-      "n_no_practice": 94
+      "practice_mean": 3.25,
+      "no_practice_mean": 2.7312,
+      "n_practice": 36,
+      "n_no_practice": 93
     },
     {
       "label": "1.13+1.14",
       "name": "Modeling and Validation",
       "unit": "Unit 1B",
-      "practice_mean": 2.86,
-      "no_practice_mean": 2.4279,
-      "n_practice": 25,
-      "n_no_practice": 104
+      "practice_mean": 2.8269,
+      "no_practice_mean": 2.432,
+      "n_practice": 26,
+      "n_no_practice": 103
+    },
+    {
+      "label": "2.1",
+      "name": "Arithmetic and Geometric Sequences",
+      "unit": "Unit 2A",
+      "practice_mean": 2.7561,
+      "no_practice_mean": 2.2414,
+      "n_practice": 41,
+      "n_no_practice": 87
+    },
+    {
+      "label": "2.2",
+      "name": "Change in Linear and Exponential Functions",
+      "unit": "Unit 2A",
+      "practice_mean": 2.9655,
+      "no_practice_mean": 2.7475,
+      "n_practice": 29,
+      "n_no_practice": 99
+    },
+    {
+      "label": "2.3",
+      "name": "Exponential Functions",
+      "unit": "Unit 2A",
+      "practice_mean": 2.9714,
+      "no_practice_mean": 2.6344,
+      "n_practice": 35,
+      "n_no_practice": 93
+    },
+    {
+      "label": "2.4",
+      "name": "Exponential Function Manipulation",
+      "unit": "Unit 2A",
+      "practice_mean": 2.6786,
+      "no_practice_mean": 2.4747,
+      "n_practice": 28,
+      "n_no_practice": 99
     }
   ]
 }
