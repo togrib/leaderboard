@@ -2,28 +2,14 @@
   "timezone": "America/Phoenix",
   "events": [
     {
-      "title": "2.7+2.8 - Composition and Inverse (cont)",
-      "date": "2026-11-09",
-      "all_day": true,
-      "start_time": null,
-      "end_time": null
-    },
-    {
       "title": "Give Unit Review (2.1-2.8)",
-      "date": "2026-11-09",
-      "all_day": true,
-      "start_time": null,
-      "end_time": null
-    },
-    {
-      "title": "2.7+2.8 - Composition and Inverse (cont)",
       "date": "2026-11-10",
       "all_day": true,
       "start_time": null,
       "end_time": null
     },
     {
-      "title": "Give Unit Review (2.1-2.8)",
+      "title": "2.7+2.8 - Composition and Inverse (cont)",
       "date": "2026-11-10",
       "all_day": true,
       "start_time": null,
@@ -44,14 +30,14 @@
       "end_time": null
     },
     {
-      "title": "Unit 2A Review",
+      "title": "AMC 10/12 B",
       "date": "2026-11-13",
       "all_day": true,
       "start_time": null,
       "end_time": null
     },
     {
-      "title": "AMC 10/12 B",
+      "title": "Unit 2A Review",
       "date": "2026-11-13",
       "all_day": true,
       "start_time": null,
