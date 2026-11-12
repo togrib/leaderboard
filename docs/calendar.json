@@ -2,13 +2,6 @@
   "timezone": "America/Phoenix",
   "events": [
     {
-      "title": "Veteran's Day (no school)",
-      "date": "2026-11-11",
-      "all_day": true,
-      "start_time": null,
-      "end_time": null
-    },
-    {
       "title": "Unit 2A Review",
       "date": "2026-11-12",
       "all_day": true,
@@ -53,6 +46,13 @@
     {
       "title": "Inverse of Exponential Functions",
       "date": "2026-11-19",
+      "all_day": true,
+      "start_time": null,
+      "end_time": null
+    },
+    {
+      "title": "Thanksgiving Break",
+      "date": "2026-11-25",
       "all_day": true,
       "start_time": null,
       "end_time": null
