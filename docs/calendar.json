@@ -3,13 +3,6 @@
   "events": [
     {
       "title": "Unit 2A Review",
-      "date": "2026-11-12",
-      "all_day": true,
-      "start_time": null,
-      "end_time": null
-    },
-    {
-      "title": "Unit 2A Review",
       "date": "2026-11-13",
       "all_day": true,
       "start_time": null,
@@ -53,6 +46,13 @@
     {
       "title": "Thanksgiving Break",
       "date": "2026-11-25",
+      "all_day": true,
+      "start_time": null,
+      "end_time": null
+    },
+    {
+      "title": "Thanksgiving Break",
+      "date": "2026-11-26",
       "all_day": true,
       "start_time": null,
       "end_time": null
