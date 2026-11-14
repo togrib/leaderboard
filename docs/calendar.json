@@ -2,20 +2,6 @@
   "timezone": "America/Phoenix",
   "events": [
     {
-      "title": "AMC 10/12 B",
-      "date": "2026-11-13",
-      "all_day": true,
-      "start_time": null,
-      "end_time": null
-    },
-    {
-      "title": "Unit 2A Review",
-      "date": "2026-11-13",
-      "all_day": true,
-      "start_time": null,
-      "end_time": null
-    },
-    {
       "title": "Unit 2A Exam",
       "date": "2026-11-16",
       "all_day": true,
@@ -53,6 +39,13 @@
     {
       "title": "Thanksgiving Break",
       "date": "2026-11-26",
+      "all_day": true,
+      "start_time": null,
+      "end_time": null
+    },
+    {
+      "title": "Thanksgiving Break",
+      "date": "2026-11-27",
       "all_day": true,
       "start_time": null,
       "end_time": null
