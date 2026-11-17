@@ -3,13 +3,6 @@
   "events": [
     {
       "title": "Unit 2A Exam",
-      "date": "2026-11-16",
-      "all_day": true,
-      "start_time": null,
-      "end_time": null
-    },
-    {
-      "title": "Unit 2A Exam",
       "date": "2026-11-17",
       "all_day": true,
       "start_time": null,
@@ -51,14 +44,14 @@
       "end_time": null
     },
     {
-      "title": "Go over Unit 2A Exam",
+      "title": "No Gribble",
       "date": "2026-11-24",
       "all_day": true,
       "start_time": null,
       "end_time": null
     },
     {
-      "title": "No Gribble",
+      "title": "Go over Unit 2A Exam",
       "date": "2026-11-24",
       "all_day": true,
       "start_time": null,
