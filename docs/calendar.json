@@ -2,14 +2,14 @@
   "timezone": "America/Phoenix",
   "events": [
     {
-      "title": "SST",
+      "title": "2.9 - Logarithmic Expressions",
       "date": "2026-11-18",
       "all_day": true,
       "start_time": null,
       "end_time": null
     },
     {
-      "title": "2.9 - Logarithmic Expressions",
+      "title": "SST",
       "date": "2026-11-18",
       "all_day": true,
       "start_time": null,
