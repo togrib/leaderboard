@@ -2,13 +2,6 @@
   "timezone": "America/Phoenix",
   "events": [
     {
-      "title": "2.10 - Inverse of Exponential Functions",
-      "date": "2026-11-19",
-      "all_day": true,
-      "start_time": null,
-      "end_time": null
-    },
-    {
       "title": "Logarithmic Functions",
       "date": "2026-11-20",
       "all_day": true,
