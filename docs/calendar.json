@@ -2,13 +2,6 @@
   "timezone": "America/Phoenix",
   "events": [
     {
-      "title": "Logarithmic Functions",
-      "date": "2026-11-20",
-      "all_day": true,
-      "start_time": null,
-      "end_time": null
-    },
-    {
       "title": "Go over Unit 2A Exam",
       "date": "2026-11-23",
       "all_day": true,
