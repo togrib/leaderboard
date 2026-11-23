@@ -145,6 +145,22 @@ TOPICS = [
     {"label": "2.4", "name": "Exponential Function Manipulation",
      "practice_columns": ["CYUP - 2.4"],
      "mastery_columns": ["Unit 2A > 2.4 result"]},
+
+    {"label": "2.5", "name": "Exponential Function Context and Modeling",
+     "practice_columns": ["CYUP - 2.5"],
+     "mastery_columns": ["Unit 2A > 2.5 result"]},
+
+    {"label": "2.6", "name": "Competing Model Function Validation",
+     "practice_columns": ["CYUP - 2.6"],
+     "mastery_columns": ["Unit 2A > 2.6 result"]},
+
+    {"label": "2.7", "name": "Composition of Functions",
+     "practice_columns": ["CYUP - 2.7"],
+     "mastery_columns": ["Unit 2A > 2.7 result"]},
+
+    {"label": "2.8", "name": "Inverse Functions",
+     "practice_columns": ["CYUP - 2.8"],
+     "mastery_columns": ["Unit 2A > 2.8 result"]},
 ]
 
 
@@ -217,8 +233,21 @@ def find_column(fieldnames, starts_with):
     """
     Find the one column whose name starts with the given text.
     Stops with a clear message if there are zero matches or several.
+
+    A match only counts if the text is NOT immediately followed by a digit.
+    That way "CYUP - 2.1" finds the 2.1 column but not the 2.11 column
+    (and "CYUP - 1.1" would not grab a 1.13 column either), with no need to
+    add extra spaces or dashes to the names in TOPICS.
     """
-    matches = [name for name in fieldnames if name.startswith(starts_with)]
+    matches = []
+    for name in fieldnames:
+        if not name.startswith(starts_with):
+            continue
+        next_character = name[len(starts_with):len(starts_with) + 1]
+        if next_character.isdigit():
+            continue   # e.g. "2.11" when we were looking for "2.1"
+        matches.append(name)
+
     if len(matches) != 1:
         sys.exit(
             f"ERROR: Expected exactly 1 column starting with '{starts_with}' "

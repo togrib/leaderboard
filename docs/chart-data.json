@@ -1,140 +1,176 @@
 {
-  "updated": "11/10/2026",
+  "updated": "11/23/2026",
   "topics": [
     {
       "label": "1.1+1.2",
       "name": "Rates of Change",
       "unit": "Unit 1A",
       "practice_mean": 3.2695,
-      "no_practice_mean": 2.8524,
+      "no_practice_mean": 2.8686,
       "n_practice": 82,
-      "n_no_practice": 50
+      "n_no_practice": 49
     },
     {
       "label": "1.3",
       "name": "AROC of Lin. & Quad.",
       "unit": "Unit 1A",
       "practice_mean": 3.3257,
-      "no_practice_mean": 3.2055,
+      "no_practice_mean": 3.2144,
       "n_practice": 74,
-      "n_no_practice": 58
+      "n_no_practice": 57
     },
     {
       "label": "1.4",
       "name": "Poly & Rates of Change",
       "unit": "Unit 1A",
-      "practice_mean": 3.3381,
-      "no_practice_mean": 3.0516,
-      "n_practice": 63,
-      "n_no_practice": 69
+      "practice_mean": 3.318,
+      "no_practice_mean": 3.0524,
+      "n_practice": 64,
+      "n_no_practice": 67
     },
     {
       "label": "1.5",
       "name": "Poly & Complex Zeros",
       "unit": "Unit 1A",
-      "practice_mean": 2.6595,
-      "no_practice_mean": 2.4139,
-      "n_practice": 58,
-      "n_no_practice": 74
+      "practice_mean": 2.6525,
+      "no_practice_mean": 2.4219,
+      "n_practice": 59,
+      "n_no_practice": 72
     },
     {
       "label": "1.6",
       "name": "End Behavior (Poly)",
       "unit": "Unit 1A",
-      "practice_mean": 3.612,
-      "no_practice_mean": 3.3414,
-      "n_practice": 61,
-      "n_no_practice": 71
+      "practice_mean": 3.6021,
+      "no_practice_mean": 3.3404,
+      "n_practice": 62,
+      "n_no_practice": 69
     },
     {
       "label": "1.7",
       "name": "End Behavior (Rational)",
       "unit": "Unit 1B",
-      "practice_mean": 3.3491,
-      "no_practice_mean": 3.0568,
-      "n_practice": 75,
-      "n_no_practice": 57
+      "practice_mean": 3.327,
+      "no_practice_mean": 3.097,
+      "n_practice": 77,
+      "n_no_practice": 54
     },
     {
       "label": "1.8",
       "name": "Rational & Zeros",
       "unit": "Unit 1B",
-      "practice_mean": 3.0187,
-      "no_practice_mean": 2.5078,
-      "n_practice": 67,
-      "n_no_practice": 64
+      "practice_mean": 3.0037,
+      "no_practice_mean": 2.4921,
+      "n_practice": 68,
+      "n_no_practice": 63
     },
     {
       "label": "1.9+1.10",
       "name": "Vertical Asymptotes & Holes",
       "unit": "Unit 1B",
       "practice_mean": 3.0542,
-      "no_practice_mean": 2.6094,
+      "no_practice_mean": 2.6215,
       "n_practice": 60,
-      "n_no_practice": 72
+      "n_no_practice": 71
     },
     {
       "label": "1.11",
       "name": "Equivalent Representations",
       "unit": "Unit 1B",
-      "practice_mean": 3.0694,
-      "no_practice_mean": 2.9071,
-      "n_practice": 54,
-      "n_no_practice": 78
+      "practice_mean": 3.0545,
+      "no_practice_mean": 2.9243,
+      "n_practice": 55,
+      "n_no_practice": 76
     },
     {
       "label": "1.12",
       "name": "Transformations",
       "unit": "Unit 1B",
       "practice_mean": 3.25,
-      "no_practice_mean": 2.7312,
+      "no_practice_mean": 2.6915,
       "n_practice": 36,
-      "n_no_practice": 93
+      "n_no_practice": 94
     },
     {
       "label": "1.13+1.14",
       "name": "Modeling and Validation",
       "unit": "Unit 1B",
-      "practice_mean": 2.8269,
-      "no_practice_mean": 2.432,
-      "n_practice": 26,
+      "practice_mean": 2.9821,
+      "no_practice_mean": 2.5789,
+      "n_practice": 28,
       "n_no_practice": 103
     },
     {
       "label": "2.1",
       "name": "Arithmetic and Geometric Sequences",
       "unit": "Unit 2A",
-      "practice_mean": 2.7561,
-      "no_practice_mean": 2.2414,
-      "n_practice": 41,
-      "n_no_practice": 87
+      "practice_mean": 3.1898,
+      "no_practice_mean": 2.7532,
+      "n_practice": 54,
+      "n_no_practice": 77
     },
     {
       "label": "2.2",
       "name": "Change in Linear and Exponential Functions",
       "unit": "Unit 2A",
-      "practice_mean": 2.9655,
-      "no_practice_mean": 2.7475,
-      "n_practice": 29,
-      "n_no_practice": 99
+      "practice_mean": 3.3478,
+      "no_practice_mean": 3.1588,
+      "n_practice": 46,
+      "n_no_practice": 85
     },
     {
       "label": "2.3",
       "name": "Exponential Functions",
       "unit": "Unit 2A",
-      "practice_mean": 2.9714,
-      "no_practice_mean": 2.6344,
-      "n_practice": 35,
-      "n_no_practice": 93
+      "practice_mean": 3.415,
+      "no_practice_mean": 3.1667,
+      "n_practice": 50,
+      "n_no_practice": 81
     },
     {
       "label": "2.4",
       "name": "Exponential Function Manipulation",
       "unit": "Unit 2A",
-      "practice_mean": 2.6786,
-      "no_practice_mean": 2.4747,
-      "n_practice": 28,
-      "n_no_practice": 99
+      "practice_mean": 3.4889,
+      "no_practice_mean": 3.3983,
+      "n_practice": 45,
+      "n_no_practice": 86
+    },
+    {
+      "label": "2.5",
+      "name": "Exponential Function Context and Modeling",
+      "unit": "Unit 2A",
+      "practice_mean": 3.125,
+      "no_practice_mean": 2.8515,
+      "n_practice": 24,
+      "n_no_practice": 101
+    },
+    {
+      "label": "2.6",
+      "name": "Competing Model Function Validation",
+      "unit": "Unit 2A",
+      "practice_mean": 3.2222,
+      "no_practice_mean": 2.9286,
+      "n_practice": 27,
+      "n_no_practice": 98
+    },
+    {
+      "label": "2.7",
+      "name": "Composition of Functions",
+      "unit": "Unit 2A",
+      "practice_mean": 3.8148,
+      "no_practice_mean": 3.602,
+      "n_practice": 27,
+      "n_no_practice": 98
+    },
+    {
+      "label": "2.8",
+      "name": "Inverse Functions",
+      "unit": "Unit 2A",
+      "practice_mean": 3.3548,
+      "no_practice_mean": 3.0638,
+      "n_practice": 31,
+      "n_no_practice": 94
     }
   ]
 }
