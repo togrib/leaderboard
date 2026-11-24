@@ -3,20 +3,6 @@
   "events": [
     {
       "title": "Go over Unit 2A Exam",
-      "date": "2026-11-23",
-      "all_day": true,
-      "start_time": null,
-      "end_time": null
-    },
-    {
-      "title": "2.12 - Logarithmic Function Manipulation",
-      "date": "2026-11-23",
-      "all_day": true,
-      "start_time": null,
-      "end_time": null
-    },
-    {
-      "title": "Go over Unit 2A Exam",
       "date": "2026-11-24",
       "all_day": true,
       "start_time": null,
@@ -81,6 +67,20 @@
     {
       "title": "*? Review",
       "date": "2026-12-04",
+      "all_day": true,
+      "start_time": null,
+      "end_time": null
+    },
+    {
+      "title": "Get performance logs updated",
+      "date": "2026-12-07",
+      "all_day": true,
+      "start_time": null,
+      "end_time": null
+    },
+    {
+      "title": "*? Review",
+      "date": "2026-12-07",
       "all_day": true,
       "start_time": null,
       "end_time": null
