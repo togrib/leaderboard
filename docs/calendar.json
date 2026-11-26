@@ -3,13 +3,6 @@
   "events": [
     {
       "title": "Thanksgiving Break",
-      "date": "2026-11-25",
-      "all_day": true,
-      "start_time": null,
-      "end_time": null
-    },
-    {
-      "title": "Thanksgiving Break",
       "date": "2026-11-26",
       "all_day": true,
       "start_time": null,
@@ -81,6 +74,20 @@
     {
       "title": "Get performance logs updated",
       "date": "2026-12-08",
+      "all_day": true,
+      "start_time": null,
+      "end_time": null
+    },
+    {
+      "title": "*? Review",
+      "date": "2026-12-09",
+      "all_day": true,
+      "start_time": null,
+      "end_time": null
+    },
+    {
+      "title": "Get performance logs updated",
+      "date": "2026-12-09",
       "all_day": true,
       "start_time": null,
       "end_time": null
