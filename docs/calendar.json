@@ -51,13 +51,6 @@
       "end_time": null
     },
     {
-      "title": "*? Review",
-      "date": "2026-12-07",
-      "all_day": true,
-      "start_time": null,
-      "end_time": null
-    },
-    {
       "title": "Get performance logs updated",
       "date": "2026-12-07",
       "all_day": true,
@@ -66,7 +59,7 @@
     },
     {
       "title": "*? Review",
-      "date": "2026-12-08",
+      "date": "2026-12-07",
       "all_day": true,
       "start_time": null,
       "end_time": null
@@ -80,13 +73,20 @@
     },
     {
       "title": "*? Review",
+      "date": "2026-12-08",
+      "all_day": true,
+      "start_time": null,
+      "end_time": null
+    },
+    {
+      "title": "Get performance logs updated",
       "date": "2026-12-09",
       "all_day": true,
       "start_time": null,
       "end_time": null
     },
     {
-      "title": "Get performance logs updated",
+      "title": "*? Review",
       "date": "2026-12-09",
       "all_day": true,
       "start_time": null,
