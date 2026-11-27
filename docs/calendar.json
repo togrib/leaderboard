@@ -3,13 +3,6 @@
   "events": [
     {
       "title": "Thanksgiving Break",
-      "date": "2026-11-26",
-      "all_day": true,
-      "start_time": null,
-      "end_time": null
-    },
-    {
-      "title": "Thanksgiving Break",
       "date": "2026-11-27",
       "all_day": true,
       "start_time": null,
@@ -88,6 +81,20 @@
     {
       "title": "*? Review",
       "date": "2026-12-09",
+      "all_day": true,
+      "start_time": null,
+      "end_time": null
+    },
+    {
+      "title": "Get performance logs updated",
+      "date": "2026-12-10",
+      "all_day": true,
+      "start_time": null,
+      "end_time": null
+    },
+    {
+      "title": "*? Unit 2B Exam",
+      "date": "2026-12-10",
       "all_day": true,
       "start_time": null,
       "end_time": null
