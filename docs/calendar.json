@@ -2,13 +2,6 @@
   "timezone": "America/Phoenix",
   "events": [
     {
-      "title": "Thanksgiving Break",
-      "date": "2026-11-27",
-      "all_day": true,
-      "start_time": null,
-      "end_time": null
-    },
-    {
       "title": "2.12 cont. + 2.13 - Solving Logarithmic Equations and Inequalities",
       "date": "2026-11-30",
       "all_day": true,
@@ -86,6 +79,13 @@
       "end_time": null
     },
     {
+      "title": "Get performance logs updated",
+      "date": "2026-12-10",
+      "all_day": true,
+      "start_time": null,
+      "end_time": null
+    },
+    {
       "title": "*? Unit 2B Exam",
       "date": "2026-12-10",
       "all_day": true,
@@ -94,7 +94,14 @@
     },
     {
       "title": "Get performance logs updated",
-      "date": "2026-12-10",
+      "date": "2026-12-11",
+      "all_day": true,
+      "start_time": null,
+      "end_time": null
+    },
+    {
+      "title": "*? Unit 2B Exam",
+      "date": "2026-12-11",
       "all_day": true,
       "start_time": null,
       "end_time": null
